@@ -24,6 +24,10 @@
         background-size: cover;
         padding-top: 70px;
       }
+      .fab:hover {
+        transform: scale(1.1);
+        transition: transform 0.3s ease, color 0.3s ease;
+      }
     </style>
   </head>
 
@@ -72,6 +76,113 @@
         </div>
       </div>
     </nav>
+    <section class="container my-5">
+      <h2 class="text-center mb-4">Get in Touch</h2>
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="text-center">
+            <p class="mb-4">
+              Have questions? Reach out to us through any of the following
+              platforms:
+            </p>
+            <div class="d-flex justify-content-center">
+              <a
+                href="https://www.facebook.com"
+                target="_blank"
+                class="text-primary mx-4"
+              >
+                <i class="fab fa-facebook fa-3x"></i>
+              </a>
+              <a
+                href="https://www.instagram.com"
+                target="_blank"
+                class="text-danger mx-4"
+              >
+                <i class="fab fa-instagram fa-3x"></i>
+              </a>
+              <a
+                href="https://www.twitter.com"
+                target="_blank"
+                class="text-info mx-4"
+              >
+                <i class="fab fa-twitter fa-3x"></i>
+              </a>
+              <a
+                href="https://www.linkedin.com"
+                target="_blank"
+                class="text-primary mx-4"
+              >
+                <i class="fab fa-linkedin fa-3x"></i>
+              </a>
+              <a
+                href="https://www.youtube.com"
+                target="_blank"
+                class="text-danger mx-4"
+              >
+                <i class="fab fa-youtube fa-3x"></i>
+              </a>
+            </div>
+            <div class="mt-5">
+              <p class="mb-3">
+                <i class="fas fa-envelope fa-2x text-warning"></i>
+                <a
+                  href="mailto:info@rentride.com"
+                  class="text-decoration-none fs-5 ms-2"
+                >
+                  Mail Us
+                </a>
+              </p>
+              <p>
+                <i class="fas fa-phone fa-2x text-success"></i>
+                <a
+                  href="tel:+94000000000"
+                  class="text-decoration-none fs-5 ms-2"
+                >
+                  +94 00 000 0000
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-5">
+        <h3>Send us a message</h3>
+        <form action="submit_form.php" method="post">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              name="name"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="message" class="form-label">Message</label>
+            <textarea
+              class="form-control"
+              id="message"
+              name="message"
+              rows="4"
+              required
+            ></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </section>
     <footer class="bg-dark text-white text-center py-4">
       <div>
         <a
