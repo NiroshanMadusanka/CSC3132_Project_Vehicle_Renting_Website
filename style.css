@@ -17,11 +17,10 @@ body {
 
 button.btn-primary {
   color: #00cdfe;
-  background-color: #5a3ed7;
+  background-color: #000808;
 }
 
 .hero {
-  background: url("images/background.jpg") no-repeat center center;
   background-size: cover;
   min-height: 80vh;
   color: white;
