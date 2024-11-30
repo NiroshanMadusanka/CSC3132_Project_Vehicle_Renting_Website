@@ -1,0 +1,63 @@
+body {
+  background-color: #f4f4f4;
+  color: #333333;
+  font-family: "Poppins", sans-serif;
+}
+
+.btn-primary,
+.navbar-dark .navbar-nav .nav-link {
+  background-color: #00cdfe;
+  color: white;
+}
+
+button.btn-primary {
+  background-color: #ffcc00;
+}
+
+.hero h1 {
+  font-size: 3rem;
+}
+
+.card {
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card-img-top {
+  max-height: 250px;
+  object-fit: cover;
+}
+
+footer {
+  background-color: #333333;
+  color: white;
+}
+
+footer a {
+  color: #00cdfe;
+}
+
+footer a:hover {
+  color: #ffcc00;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: #ffcc00;
+}
+
+.navbar {
+  background-color: #333333;
+}
+
+.navbar-brand {
+  color: #00cdfe;
+}
+
+section h2 {
+  color: #00cdfe;
+}
