@@ -1,4 +1,3 @@
-// Smooth scrolling for navigation links
 document.querySelectorAll(".nav-link").forEach((link) => {
   link.addEventListener("click", function (e) {
     if (this.hash !== "") {
@@ -12,7 +11,6 @@ document.querySelectorAll(".nav-link").forEach((link) => {
   });
 });
 
-// Form validation for the search bar
 document.querySelector(".search-bar").addEventListener("submit", function (e) {
   const inputs = this.querySelectorAll("input");
   let isValid = true;
@@ -27,19 +25,17 @@ document.querySelector(".search-bar").addEventListener("submit", function (e) {
   });
 
   if (!isValid) {
-    e.preventDefault(); // Stop form submission if invalid
+    e.preventDefault();
     alert("Please fill out all fields before searching.");
   }
 });
 
-// Display alert on clicking "Book Now" button
 document.querySelectorAll(".btn-primary").forEach((button) => {
   button.addEventListener("click", function () {
     alert("This feature is under development. Stay tuned!");
   });
 });
 
-// Add scroll-to-top functionality
 const scrollToTopBtn = document.createElement("button");
 scrollToTopBtn.textContent = "↑";
 scrollToTopBtn.className = "scroll-to-top";

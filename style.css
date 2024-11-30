@@ -1,17 +1,39 @@
 body {
-  background-color: #f4f4f4;
   color: #333333;
   font-family: "Poppins", sans-serif;
 }
 
+.navbar-brand img {
+  max-height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .btn-primary,
 .navbar-dark .navbar-nav .nav-link {
-  background-color: #00cdfe;
   color: white;
 }
 
 button.btn-primary {
   background-color: #ffcc00;
+}
+
+.hero {
+  background: url("images/background.jpg") no-repeat center center;
+  background-size: cover;
+  min-height: 80vh;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.search-bar {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .hero h1 {
@@ -55,9 +77,24 @@ footer a:hover {
 }
 
 .navbar-brand {
-  color: #00cdfe;
 }
 
 section h2 {
-  color: #00cdfe;
+}
+.card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-img-top {
+  max-height: 200px;
+  object-fit: cover;
+}
+
+.card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
