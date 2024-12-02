@@ -114,6 +114,12 @@
       <h2 class="text-center mb-4">Login to Rent & Ride</h2>
       <div class="row justify-content-center">
         <div class="col-md-6 col-12">
+          <div
+            id="error-message"
+            class="alert alert-danger"
+            style="display: none"
+          ></div>
+
           <form action="login.php" method="POST">
             <div class="mb-3">
               <label for="name" class="form-label">Name</label>
@@ -127,15 +133,13 @@
               />
             </div>
             <div class="mb-3">
-              <label for="email_or_phone" class="form-label"
-                >Email or Phone Number</label
-              >
+              <label for="email" class="form-label">Email</label>
               <input
                 type="text"
                 class="form-control"
-                id="email_or_phone"
-                name="email_or_phone"
-                placeholder="Enter your email or phone number"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
                 required
               />
             </div>
@@ -158,6 +162,32 @@
         </div>
       </div>
     </section>
+
+    <script>
+      function displayErrorMessage() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get("error");
+        const errorMessage = document.getElementById("error-message");
+
+        if (error) {
+          errorMessage.style.display = "block";
+          switch (error) {
+            case "invalid_password":
+              errorMessage.textContent = "Invalid password. Please try again.";
+              break;
+            case "email_not_found":
+              errorMessage.textContent =
+                "Email not found. Please check your email or sign up.";
+              break;
+            default:
+              errorMessage.textContent =
+                "An unknown error occurred. Please try again.";
+          }
+        }
+      }
+
+      window.onload = displayErrorMessage;
+    </script>
 
     <footer class="bg-dark text-white text-center py-4">
       <div>
