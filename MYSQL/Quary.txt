@@ -40,7 +40,7 @@ CREATE TABLE bookings (
 
 DESC users;
 DESC vehicles;
-DESC Booking;
+DESC bookings;
 
 SELECT * FROM users;
 SELECT * FROM vehicles;
