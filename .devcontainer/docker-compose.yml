@@ -18,12 +18,6 @@ services:
     # Use "forwardPorts" in **devcontainer.json** to forward an app port locally. 
     # (Adding the "ports" property to this file will not forward from a Codespace.)
 
-    enviroment:
-      DB_HOST: 127.0.0.1:3306
-      DB_NAME: vehicle_renting
-      DB_USER: root
-      DB_PASS: mariadb
-
   db:
     image: mariadb:10.4
     restart: unless-stopped
