@@ -35,6 +35,17 @@ session_start();
       .btn-theme:hover {
         background-color: #0099cc;
       }
+      section.container {
+        margin-top: 80px; 
+        margin-bottom: 30px;
+      }
+      .blur-effect {
+        background: rgba(255, 255, 255, 0.2); /* Slight transparency for the blur effect */
+        backdrop-filter: blur(10px); /* Apply blur effect */
+        padding: 40px;
+        border-radius: 10px; /* Optional rounded corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Optional shadow */
+      }
     </style>
   </head>
 
@@ -75,7 +86,7 @@ session_start();
               <a class="nav-link" href="contact.php">Contact</a>
             </li>
 
-            <!-- Admin Dashboard link, visible only to admins -->
+            
             <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
             <li class="nav-item">
               <a class="nav-link btn btn-warning text-white" href="myadmin.php"
@@ -84,7 +95,7 @@ session_start();
             </li>
             <?php endif; ?>
 
-            <!-- Login/Logout buttons -->
+            
             <?php if (isset($_SESSION['user_id'])): ?>
             <li class="nav-item">
               <a class="nav-link btn btn-secondary text-white" href="logout.php"
@@ -181,6 +192,19 @@ session_start();
         </div>
       </div>
     </section>
+    <section class="text-center blur-effect mb-4">
+      <h2 class="text-center mb-4">Want to Add Your Vehicle?</h2>
+      <p class="text-center">
+          Trust Rent & Ride to help you rent out your vehicle to people who need it. Whether it's a car, van, scooter, or any other type of vehicle, our platform makes it easy to list your vehicle and start earning. We ensure a safe and secure experience for both vehicle owners and renters, making it a win-win situation for everyone.
+      </p>
+      <p class="text-center mb-4" >
+        Simply fill out the form on the next page to add your vehicle. It’s easy and free! Get started today and help others find the perfect ride.
+      </p>
+      <div class="text-center" >
+          <a href="addvehicle.php" class="btn btn-theme btn-lg">Add Your Vehicle</a>
+        </div>
+    </section>
+
 
     <footer class="bg-dark text-white text-center py-4">
       <div>
