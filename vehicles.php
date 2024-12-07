@@ -40,11 +40,11 @@ session_start();
         margin-bottom: 30px;
       }
       .blur-effect {
-        background: rgba(255, 255, 255, 0.2); /* Slight transparency for the blur effect */
-        backdrop-filter: blur(10px); /* Apply blur effect */
+        background: rgba(255, 255, 255, 0.2); 
+        backdrop-filter: blur(10px); 
         padding: 40px;
-        border-radius: 10px; /* Optional rounded corners */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Optional shadow */
+        border-radius: 10px; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
       }
     </style>
   </head>
