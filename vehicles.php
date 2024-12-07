@@ -114,7 +114,7 @@ session_start();
       </div>
     </nav>
     <section class="container mt-5">
-      <h2 class="text-center mb-4">Our Vehicles</h2>
+      <h2 class="text-center blur-effect mb-4">Tell us what wheels you’re after—we’ve got you covered!</h2>
       <div class="row">
         <div class="col-md-4 mb-4">
           <div class="card">
@@ -124,9 +124,7 @@ session_start();
               <p class="card-text">
                 Comfortable and reliable cars for your journey.
               </p>
-              <a href="available_cars.php" class="btn btn-theme"
-                >See Available Cars</a
-              >
+              <a href="listvehicle.php?category=car" class="btn btn-theme">See Available Cars</a>
             </div>
           </div>
         </div>
@@ -136,9 +134,7 @@ session_start();
             <div class="card-body">
               <h5 class="card-title">Van</h5>
               <p class="card-text">Perfect for family trips or group travel.</p>
-              <a href="available_vans.php" class="btn btn-theme"
-                >See Available Vans</a
-              >
+              <a href="listvehicle.php?category=van" class="btn btn-theme">See Available Vans</a>
             </div>
           </div>
         </div>
@@ -150,9 +146,7 @@ session_start();
               <p class="card-text">
                 Great for quick and easy transport around the city.
               </p>
-              <a href="available_scooters.php" class="btn btn-theme"
-                >See Available Scooters</a
-              >
+              <a href="listvehicle.php?category=scooter" class="btn btn-theme">See Available Scooters</a>
             </div>
           </div>
         </div>
@@ -166,9 +160,7 @@ session_start();
             <div class="card-body">
               <h5 class="card-title">Motorbike</h5>
               <p class="card-text">Fast and fun way to get around.</p>
-              <a href="available_motorbikes.php" class="btn btn-theme"
-                >See Available Motorbikes</a
-              >
+              <a href="listvehicle.php?category=motorbike" class="btn btn-theme">See Available Motorbikes</a>
             </div>
           </div>
         </div>
@@ -183,10 +175,7 @@ session_start();
               <h5 class="card-title">Three-Wheel</h5>
               <p class="card-text">
                 Enjoy a unique and fun ride with our three-wheeled vehicles.
-              </p>
-              <a href="available_threewheels.php" class="btn btn-theme"
-                >See Available Three-Wheels</a
-              >
+                <a href="listvehicle.php?category=threewheel" class="btn btn-theme">See Available Three-Wheels</a>
             </div>
           </div>
         </div>
