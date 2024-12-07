@@ -22,7 +22,7 @@ session_start();
     />
     <style>
       body {
-        background: url("img/background_Home.jpg") no-repeat center center fixed;
+        background: url("img/admin_back.jpg") no-repeat center center fixed;
         background-size: cover;
         padding-top: 70px;
       }
@@ -66,7 +66,6 @@ session_start();
               <a class="nav-link" href="contact.php">Contact</a>
             </li>
 
-           
             <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
             <li class="nav-item">
               <a class="nav-link btn btn-warning text-white" href="myadmin.php"
@@ -75,7 +74,6 @@ session_start();
             </li>
             <?php endif; ?>
 
-            
             <?php if (isset($_SESSION['user_id'])): ?>
             <li class="nav-item">
               <a class="nav-link btn btn-secondary text-white" href="logout.php"
@@ -94,7 +92,71 @@ session_start();
       </div>
     </nav>
 
-<footer class="bg-dark text-white text-center py-4">
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">Total Users</h5>
+              <p class="card-text"><?php echo $total_users; ?></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">Total Vehicles</h5>
+              <p class="card-text"><?php echo $total_vehicles; ?></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">Pending Requests</h5>
+              <p class="card-text"><?php echo $pending_requests; ?></p>
+              <a href="approve_vehicles.php" class="btn btn-sm btn-warning">Approve Vehicles</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">Active Bookings</h5>
+              <p class="card-text"><?php echo $active_bookings; ?></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-4">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">Manage Users</h5>
+              <a href="manage_users.php" class="btn btn-primary">Go to Manage Users</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">Edit Vehicles</h5>
+              <a href="edit_vehicles.php" class="btn btn-primary">Go to Edit Vehicles</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">Pending Vehicle Approvals</h5>
+              <a href="approve_vehicles.php" class="btn btn-warning">View Approvals</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="bg-dark text-white text-center py-4">
       <div>
         <a
           href="https://www.facebook.com/"
