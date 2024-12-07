@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 include 'connectDB.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -96,22 +98,65 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="index.html">
-          <img src="img/LogoNew.jpg" alt="Rent & Ride Logo" style="height: 40px; margin-right: 10px" />
+        <a class="navbar-brand d-flex align-items-center" href="index.php">
+          <img
+            src="img/LogoNew.jpg"
+            alt="Rent & Ride Logo"
+            style="height: 40px; margin-right: 10px"
+          />
           Rent & Ride
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="vehicles.html">Vehicles</a></li>
-            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-            <li class="nav-item"><a class="nav-link btn btn-primary text-white" href="login.html">Login</a></li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="vehicles.php">Vehicles</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.php">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.php">Contact</a>
+            </li>
+
+            <!-- Admin Dashboard link, visible only to admins -->
+            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+            <li class="nav-item">
+              <a class="nav-link btn btn-warning text-white" href="myadmin.php"
+                >Admin Dashboard</a
+              >
+            </li>
+            <?php endif; ?>
+
+            <!-- Login/Logout buttons -->
+            <?php if (isset($_SESSION['user_id'])): ?>
+            <li class="nav-item">
+              <a class="nav-link btn btn-secondary text-white" href="logout.php"
+                >Logout</a
+              >
+            </li>
+            <?php else: ?>
+            <li class="nav-item">
+              <a class="nav-link btn btn-primary text-white" href="login.php"
+                >Login</a
+              >
+            </li>
+            <?php endif; ?>
           </ul>
         </div>
       </div>
@@ -140,7 +185,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <button type="submit" class="btn btn-primary w-100">Sign Up</button>
           </form>
-          <p class="mt-3 text-center">Already have an account? <a href="login.html">Login here</a></p>
+          <p class="mt-3 text-center">Already have an account? <a href="login.php">Login here</a></p>
         </div>
       </div>
     </section>

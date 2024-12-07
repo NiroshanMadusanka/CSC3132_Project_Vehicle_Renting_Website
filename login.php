@@ -2,19 +2,18 @@
 session_start();
 include 'connectDB.php'; 
 
-// Check if a session error exists
 $error_message = "";
 if (isset($_SESSION['error'])) {
     $error_message = $_SESSION['error'];
     unset($_SESSION['error']);
 }
 
-// Handle POST request from login form
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = htmlspecialchars(trim($_POST['email'])); 
     $password = htmlspecialchars($_POST['password']); 
 
-    // Validate email format
+    
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['error'] = 'Invalid email format!';
         header("Location: login.php");  // Self-redirection to show error
@@ -83,27 +82,64 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="index.html">
-                <img src="img/LogoNew.jpg" alt="Rent & Ride Logo" style="height: 40px; margin-right: 10px" />
-                Rent & Ride
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="vehicles.html">Vehicles</a></li>
-                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-primary text-white" href="login.html">Login</a>
-                    </li>
-                </ul>
-            </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="index.php">
+          <img
+            src="img/LogoNew.jpg"
+            alt="Rent & Ride Logo"
+            style="height: 40px; margin-right: 10px"
+          />
+          Rent & Ride
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.php">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="vehicles.php">Vehicles</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.php">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.php">Contact</a>
+            </li>
+
+            
+            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+            <li class="nav-item">
+            <a class="nav-link btn btn-warning text-white" href="myadmin.php">Admin Dashboard</a>
+            </li>
+            <?php endif; ?>
+
+
+            
+            <?php if (isset($_SESSION['user_id'])): ?>
+            <li class="nav-item">
+            <a class="nav-link btn btn-secondary text-white" href="logout.php">Logout</a>
+            </li>
+            <?php else: ?>
+            <li class="nav-item">
+                <a class="nav-link btn btn-primary text-white" href="login.php">Login</a>
+            </li>
+            <?php endif; ?>
+
+          </ul>
         </div>
+      </div>
     </nav>
 
     <section class="container my-5">
@@ -133,13 +169,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </section>
 
     <footer class="bg-dark text-white text-center py-4">
-        <div>
-            <a href="https://www.facebook.com/" target="_blank" class="text-white mx-2"><i class="fab fa-facebook fa-2x"></i></a>
-            <a href="https://www.twitter.com/" target="_blank" class="text-white mx-2"><i class="fab fa-twitter fa-2x"></i></a>
-            <a href="https://www.instagram.com/" target="_blank" class="text-white mx-2"><i class="fab fa-instagram fa-2x"></i></a>
-            <a href="https://www.linkedin.com/" target="_blank" class="text-white mx-2"><i class="fab fa-linkedin fa-2x"></i></a>
-        </div>
-        <p>&copy; 2024 Rent & Ride. All rights reserved.</p>
+      <div>
+        <a
+          href="https://www.facebook.com/"
+          target="_blank"
+          class="text-white mx-2"
+        >
+          <i class="fab fa-facebook fa-2x"></i>
+        </a>
+        <a
+          href="https://www.twitter.com/"
+          target="_blank"
+          class="text-white mx-2"
+        >
+          <i class="fab fa-twitter fa-2x"></i>
+        </a>
+        <a
+          href="https://www.instagram.com/"
+          target="_blank"
+          class="text-white mx-2"
+        >
+          <i class="fab fa-instagram fa-2x"></i>
+        </a>
+        <a
+          href="https://www.linkedin.com/"
+          target="_blank"
+          class="text-white mx-2"
+        >
+          <i class="fab fa-linkedin fa-2x"></i>
+        </a>
+      </div>
+      <p>&copy; 2024 Rent & Ride. All rights reserved.</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

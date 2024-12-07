@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -63,7 +66,7 @@
               <a class="nav-link" href="contact.php">Contact</a>
             </li>
 
-            <!-- Admin Dashboard link, visible only to admins -->
+            
             <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
             <li class="nav-item">
               <a class="nav-link btn btn-warning text-white" href="myadmin.php"
@@ -72,7 +75,7 @@
             </li>
             <?php endif; ?>
 
-            <!-- Login/Logout buttons -->
+           
             <?php if (isset($_SESSION['user_id'])): ?>
             <li class="nav-item">
               <a class="nav-link btn btn-secondary text-white" href="logout.php"

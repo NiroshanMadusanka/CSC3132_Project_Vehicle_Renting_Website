@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -28,7 +31,7 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="index.php">
           <img
@@ -63,11 +66,30 @@
             <li class="nav-item">
               <a class="nav-link" href="contact.php">Contact</a>
             </li>
+
+            
+            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+            <li class="nav-item">
+              <a class="nav-link btn btn-warning text-white" href="myadmin.php"
+                >Admin Dashboard</a
+              >
+            </li>
+            <?php endif; ?>
+
+           
+            <?php if (isset($_SESSION['user_id'])): ?>
+            <li class="nav-item">
+              <a class="nav-link btn btn-secondary text-white" href="logout.php"
+                >Logout</a
+              >
+            </li>
+            <?php else: ?>
             <li class="nav-item">
               <a class="nav-link btn btn-primary text-white" href="login.php"
                 >Login</a
               >
             </li>
+            <?php endif; ?>
           </ul>
         </div>
       </div>
