@@ -105,7 +105,7 @@ $pending_requests = $pending_requests_row['count'] ?? 0;
                 <div class="card-body">
                     <h5 class="card-title">Total Vehicles</h5>
                     <p class="card-text"><?php echo $total_vehicles; ?></p>
-                    <a href="edit_vehicles.php" class="btn btn-sm btn-success">Manage Vehicles</a>
+                    <a href="manage_vehicles.php" class="btn btn-sm btn-success">Manage Vehicles</a>
                 </div>
             </div>
         </div>
