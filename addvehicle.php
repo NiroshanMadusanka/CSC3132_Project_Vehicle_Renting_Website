@@ -8,38 +8,70 @@ if (!isset($_SESSION['user_id'])) {
 include 'connectDB.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone1 = $_POST['phone1'];
-    $phone2 = $_POST['phone2'];
-    $vehicle_name = $_POST['vehicle_name'];
-    $vehicle_category = $_POST['vehicle_category'];
-    $price = $_POST['price'];
-    $description = $_POST['description'];
-
+    $name = $_POST['name'] ?? ''; 
+    $email = $_POST['email'] ?? ''; 
+    $model = $_POST['model'] ?? ''; 
+    $year = $_POST['year'] ?? null; 
+    $color = $_POST['color'] ?? ''; 
+    $price = $_POST['price'] ?? 0.0; 
+    $phone1 = $_POST['phone1'] ?? null; 
+    $phone2 = $_POST['phone2'] ?? null; 
+    $description = $_POST['description'] ?? ''; 
+    
+    $approved = 0; 
+    $status = 'available'; 
+    
     
     $image = $_FILES['image']['name'];
     $target_dir = "uploads/";
+    if (!file_exists($target_dir)) {
+        mkdir($target_dir, 0777, true);
+    }
+    
+    $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
+    $file_type = $_FILES['image']['type'];
+    
+    if (!in_array($file_type, $allowed_types)) {
+        echo "<script>alert('Invalid file type. Only JPEG, PNG, and GIF are allowed. Please try again.'); window.location.href='addvehicle.php';</script>";
+        exit;
+    }
+    
     $target_file = $target_dir . basename($image);
-    move_uploaded_file($_FILES['image']['tmp_name'], $target_file);
+    
+    if (!move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
+        echo "<script>alert('Failed to upload image. Please try again later or contact support.'); window.location.href='addvehicle.php';</script>";
+        exit;
+    }
+    
+    
+    $sql = "INSERT INTO vehicles (owner_id, model, year, color, price, description, approved, status, created_at, phone1, phone2, image) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    
+    if ($stmt === false) {
+        echo "<script>alert('Server error. Please contact support.'); window.location.href='addvehicle.php';</script>";
+        exit;
+    }
+    
+    
+    $stmt->bind_param("iissdsdssss", $_SESSION['user_id'], $model, $year, $color, $price, $description, $approved, $status, $phone1, $phone2, $image);
 
     
-    $sql = "INSERT INTO vehicle_requests (user_id, name, email, phone1, phone2, vehicle_name, category, price_per_day, description, image, status)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending')";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("isssssssss", $_SESSION['user_id'], $name, $email, $phone1, $phone2, $vehicle_name, $vehicle_category, $price, $description, $image);
-    $stmt->execute();
-
-    if ($stmt->affected_rows > 0) {
-        echo "<script>alert('Vehicle submitted for approval.'); window.location.href='vehicles.php';</script>";
+    if ($stmt->execute()) {
+        echo "<script>alert('Vehicle successfully added for approval.'); window.location.href='vehicles.php';</script>";
     } else {
-        echo "<script>alert('Failed to submit vehicle. Try again.'); window.location.href='addvehicle.php';</script>";
+        echo "<script>alert('Failed to add vehicle. Try again.'); window.location.href='addvehicle.php';</script>";
     }
-
+    
     $stmt->close();
     $conn->close();
 }
 ?>
+
+
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -154,60 +186,57 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       </div>
     </nav>
     <div class="container mt-5">
-        <h2 class="text-center mb-4">Add Your Vehicle</h2>
-        <form action="addvehicle_process.php" method="POST" enctype="multipart/form-data">
-            
-            <h4>User Details</h4>
-            <div class="mb-3">
-                <label for="name" class="form-label">Full Name</label>
-                <input type="text" name="name" id="name" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" name="email" id="email" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="phone1" class="form-label">Phone Number 1</label>
-                <input type="text" name="phone1" id="phone1" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="phone2" class="form-label">Phone Number 2</label>
-                <input type="text" name="phone2" id="phone2" class="form-control">
-            </div>
+    <h2 class="text-center mb-4">Add Your Vehicle</h2>
+    <form action="addvehicle.php" method="POST" enctype="multipart/form-data">
 
-            
-            <h4>Vehicle Details</h4>
-            <div class="mb-3">
-                <label for="vehicle_name" class="form-label">Vehicle Name</label>
-                <input type="text" name="vehicle_name" id="vehicle_name" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="vehicle_category" class="form-label">Category</label>
-                <select name="vehicle_category" id="vehicle_category" class="form-control" required>
-                    <option value="Car">Car</option>
-                    <option value="Van">Van</option>
-                    <option value="Scooter">Scooter</option>
-                    <option value="Motorbike">Motorbike</option>
-                    <option value="Three-Wheel">Three-Wheel</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="price" class="form-label">Price Per Day (USD)</label>
-                <input type="number" name="price" id="price" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea name="description" id="description" class="form-control" rows="4" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="image" class="form-label">Upload Image</label>
-                <input type="file" name="image" id="image" class="form-control" accept="image/*" required>
-            </div>
+        <h4>User Details</h4>
+        <div class="mb-3">
+            <label for="name" class="form-label">Full Name</label>
+            <input type="text" name="name" id="name" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" name="email" id="email" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="phone1" class="form-label">Phone Number 1</label>
+            <input type="text" name="phone1" id="phone1" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="phone2" class="form-label">Phone Number 2</label>
+            <input type="text" name="phone2" id="phone2" class="form-control">
+        </div>
 
-            
-            <button type="submit" class="btn btn-primary w-100">Submit for Approval</button>
-        </form>
-    </div>
+        <h4>Vehicle Details</h4>
+        <div class="mb-3">
+            <label for="model" class="form-label">Vehicle Model</label>
+            <input type="text" name="model" id="model" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="year" class="form-label">Year</label>
+            <input type="number" name="year" id="year" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="color" class="form-label">Color</label>
+            <input type="text" name="color" id="color" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">Price Per Day (Rs.)</label>
+            <input type="number" name="price" id="price" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea name="description" id="description" class="form-control" rows="4" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Upload Image</label>
+            <input type="file" name="image" id="image" class="form-control" accept="image/*" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Submit for Approval</button>
+    </form>
+</div>
+
 
 
 

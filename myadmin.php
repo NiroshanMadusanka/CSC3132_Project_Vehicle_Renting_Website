@@ -2,17 +2,17 @@
 session_start();
 include 'connectDB.php';
 
-// Fetch total users
+
 $total_users_result = $conn->query("SELECT COUNT(*) AS count FROM users");
 $total_users_row = $total_users_result->fetch_assoc();
 $total_users = $total_users_row['count'] ?? 0;
 
-// Fetch total vehicles
+
 $total_vehicles_result = $conn->query("SELECT COUNT(*) AS count FROM vehicles");
 $total_vehicles_row = $total_vehicles_result->fetch_assoc();
 $total_vehicles = $total_vehicles_row['count'] ?? 0;
 
-// Fetch pending vehicle requests
+
 $pending_requests_result = $conn->query("SELECT COUNT(*) AS count FROM vehicles WHERE approved = 0");
 $pending_requests_row = $pending_requests_result->fetch_assoc();
 $pending_requests = $pending_requests_row['count'] ?? 0;

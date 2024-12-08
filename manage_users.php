@@ -1,10 +1,10 @@
 <?php
 include 'connectDB.php';
 
-// Fetch all users
+
 $result = $conn->query("SELECT id, username, email, role FROM users");
 
-// Page HTML Structure
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +19,7 @@ $result = $conn->query("SELECT id, username, email, role FROM users");
 <div class="container mt-5">
     <h1 class="text-center mb-4">Manage Users</h1>
 
-    <!-- User Management Table -->
+    
     <table class="table table-bordered table-striped">
     <thead class="table-dark">
         <tr>
@@ -41,7 +41,7 @@ $result = $conn->query("SELECT id, username, email, role FROM users");
                     <a href="edit_user.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-primary">Edit</a>
                     <a href="delete_user.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
                     
-                    <!-- Make as Admin Button -->
+                    
                     <?php if ($row['role'] !== 'admin'): ?>
                     <a href="make_admin.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-warning" onclick="return confirm('Are you sure you want to make this user an Admin?');">Make as Admin</a>
                     <?php endif; ?>

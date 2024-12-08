@@ -9,22 +9,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = htmlspecialchars($_POST['password']);
     $confirm_password = htmlspecialchars($_POST['confirm_password']);
 
-    // Validate passwords match
+    
     if ($password !== $confirm_password) {
         echo "<script>alert('Passwords do not match!'); window.location.href = 'register.php';</script>";
         exit();
     }
 
-    // Validate password strength
+    
     if (strlen($password) < 8 || !preg_match('/[A-Z]/', $password) || !preg_match('/[0-9]/', $password)) {
         echo "<script>alert('Password must be at least 8 characters long and contain an uppercase letter and a number.'); window.location.href = 'register.php';</script>";
         exit();
     }
 
-    // Hash the password
+   
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Check if the email is already registered
+    
     $check_email_sql = "SELECT * FROM users WHERE email = ?";
     $check_stmt = $conn->prepare($check_email_sql);
     $check_stmt->bind_param("s", $email);
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
-    // Insert user into the database
+   
     $sql = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     $role = 'user';  
@@ -134,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               <a class="nav-link" href="contact.php">Contact</a>
             </li>
 
-            <!-- Admin Dashboard link, visible only to admins -->
+            
             <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
             <li class="nav-item">
               <a class="nav-link btn btn-warning text-white" href="myadmin.php"
@@ -143,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </li>
             <?php endif; ?>
 
-            <!-- Login/Logout buttons -->
+           
             <?php if (isset($_SESSION['user_id'])): ?>
             <li class="nav-item">
               <a class="nav-link btn btn-secondary text-white" href="logout.php"

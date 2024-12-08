@@ -14,17 +14,22 @@ CREATE TABLE users (
 );
 
 CREATE TABLE vehicles (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    vehicle_id INT AUTO_INCREMENT PRIMARY KEY,
     owner_id INT NOT NULL,
-    make VARCHAR(100),
-    model VARCHAR(100),
-    year INT,
-    color VARCHAR(50),
-    price DECIMAL(10, 2),
-    status ENUM('available', 'rented') DEFAULT 'available',
+    model VARCHAR(255) NOT NULL,
+    year INT NOT NULL,
+    color VARCHAR(100) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    description TEXT NOT NULL,
+    approved TINYINT(1) DEFAULT 0,  
+    status VARCHAR(50) DEFAULT 'available',  
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (owner_id) REFERENCES users(id)
+    phone1 VARCHAR(15) NOT NULL,
+    phone2 VARCHAR(15),
+    image VARCHAR(255) NOT NULL,
+    FOREIGN KEY (owner_id) REFERENCES users(id)  
 );
+
 
 CREATE TABLE bookings (
     id INT AUTO_INCREMENT PRIMARY KEY,
