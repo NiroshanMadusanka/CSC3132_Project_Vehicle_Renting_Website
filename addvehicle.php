@@ -1,5 +1,7 @@
 <?php
 session_start();
+
+// Ensure the user is logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
@@ -8,6 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 include 'connectDB.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Collect form data
     $name = $_POST['name'] ?? ''; 
     $email = $_POST['email'] ?? ''; 
     $model = $_POST['model'] ?? ''; 
@@ -18,34 +21,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $phone2 = $_POST['phone2'] ?? null; 
     $description = $_POST['description'] ?? ''; 
     
-    $approved = 0; 
-    $status = 'available'; 
-    
-    
+    // Get the selected category
+    $category = $_POST['category'] ?? ''; 
+
+    // If no category is selected, show an error
+    if (empty($category)) {
+        echo "<script>alert('Please select a category for the vehicle.'); window.location.href='addvehicle.php';</script>";
+        exit;
+    }
+
+    $approved = 0;  // Default is not approved
+    $status = 'available';  // Default status is available
     $image = $_FILES['image']['name'];
     $target_dir = "uploads/";
+    
+    // Create uploads directory if it does not exist
     if (!file_exists($target_dir)) {
         mkdir($target_dir, 0777, true);
     }
-    
+
+    // Validate file type (only allow images)
     $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
     $file_type = $_FILES['image']['type'];
     
     if (!in_array($file_type, $allowed_types)) {
-        echo "<script>alert('Invalid file type. Only JPEG, PNG, and GIF are allowed. Please try again.'); window.location.href='addvehicle.php';</script>";
+        echo "<script>alert('Invalid file type. Only JPEG, PNG, and GIF are allowed.'); window.location.href='addvehicle.php';</script>";
         exit;
     }
     
+    // Set the target file path
     $target_file = $target_dir . basename($image);
     
+    // Upload the image
     if (!move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
-        echo "<script>alert('Failed to upload image. Please try again later or contact support.'); window.location.href='addvehicle.php';</script>";
+        echo "<script>alert('Failed to upload image. Please try again later.'); window.location.href='addvehicle.php';</script>";
         exit;
     }
     
+    // Prepare the SQL query to insert the vehicle data
+    $sql = "INSERT INTO vehicles (owner_id, model, year, color, price, description, approved, status, created_at, phone1, phone2, image, category) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, ?)";
     
-    $sql = "INSERT INTO vehicles (owner_id, model, year, color, price, description, approved, status, created_at, phone1, phone2, image) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?)";
+    // Prepare the statement
     $stmt = $conn->prepare($sql);
     
     if ($stmt === false) {
@@ -53,25 +70,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit;
     }
     
-    
-    $stmt->bind_param("iissdsdssss", $_SESSION['user_id'], $model, $year, $color, $price, $description, $approved, $status, $phone1, $phone2, $image);
+    // Bind parameters to the SQL query
+    // Use "isssdsdssss" for the data types
+    $stmt->bind_param("isssdsdssss", $_SESSION['user_id'], $model, $year, $color, $price, $description, $approved, $status, $phone1, $phone2, $image, $category);
 
-    
+    // Execute the query
     if ($stmt->execute()) {
         echo "<script>alert('Vehicle successfully added for approval.'); window.location.href='vehicles.php';</script>";
     } else {
         echo "<script>alert('Failed to add vehicle. Try again.'); window.location.href='addvehicle.php';</script>";
     }
     
+    // Close the statement and connection
     $stmt->close();
     $conn->close();
 }
 ?>
-
-
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -98,6 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         background-size: cover;
         padding-top: 70px;
       }
+      
       .btn-theme {
         background-color: #00cdfe;
         color: white;
@@ -120,161 +135,81 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       }
     </style>
   </head>
-  
-  <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-      <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="index.php">
-          <img
-            src="img/LogoNew.jpg"
-            alt="Rent & Ride Logo"
-            style="height: 40px; margin-right: 10px"
-          />
-          Rent & Ride
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="index.php">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="vehicles.php">Vehicles</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="about.php">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="contact.php">Contact</a>
-            </li>
+<body>
+    <div class="container">
+        <h2>Add Vehicle</h2>
+        <form method="POST" enctype="multipart/form-data">
+            <!-- Vehicle Name -->
+            <div class="mb-3">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required class="form-control">
+            </div>
 
-            
-            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-            <li class="nav-item">
-              <a class="nav-link btn btn-warning text-white" href="myadmin.php"
-                >Admin Dashboard</a
-              >
-            </li>
-            <?php endif; ?>
+            <!-- Vehicle Email -->
+            <div class="mb-3">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required class="form-control">
+            </div>
 
-            
-            <?php if (isset($_SESSION['user_id'])): ?>
-            <li class="nav-item">
-              <a class="nav-link btn btn-secondary text-white" href="logout.php"
-                >Logout</a
-              >
-            </li>
-            <?php else: ?>
-            <li class="nav-item">
-              <a class="nav-link btn btn-primary text-white" href="login.php"
-                >Login</a
-              >
-            </li>
-            <?php endif; ?>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <div class="container mt-5">
-    <h2 class="text-center mb-4">Add Your Vehicle</h2>
-    <form action="addvehicle.php" method="POST" enctype="multipart/form-data">
+            <!-- Vehicle Model -->
+            <div class="mb-3">
+                <label for="model">Model</label>
+                <input type="text" id="model" name="model" required class="form-control">
+            </div>
 
-        <h4>User Details</h4>
-        <div class="mb-3">
-            <label for="name" class="form-label">Full Name</label>
-            <input type="text" name="name" id="name" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" name="email" id="email" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="phone1" class="form-label">Phone Number 1</label>
-            <input type="text" name="phone1" id="phone1" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="phone2" class="form-label">Phone Number 2</label>
-            <input type="text" name="phone2" id="phone2" class="form-control">
-        </div>
+            <!-- Vehicle Year -->
+            <div class="mb-3">
+                <label for="year">Year</label>
+                <input type="number" id="year" name="year" required class="form-control">
+            </div>
 
-        <h4>Vehicle Details</h4>
-        <div class="mb-3">
-            <label for="model" class="form-label">Vehicle Model</label>
-            <input type="text" name="model" id="model" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="year" class="form-label">Year</label>
-            <input type="number" name="year" id="year" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="color" class="form-label">Color</label>
-            <input type="text" name="color" id="color" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="price" class="form-label">Price Per Day (Rs.)</label>
-            <input type="number" name="price" id="price" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea name="description" id="description" class="form-control" rows="4" required></textarea>
-        </div>
-        <div class="mb-3">
-            <label for="image" class="form-label">Upload Image</label>
-            <input type="file" name="image" id="image" class="form-control" accept="image/*" required>
-        </div>
+            <!-- Vehicle Color -->
+            <div class="mb-3">
+                <label for="color">Color</label>
+                <input type="text" id="color" name="color" required class="form-control">
+            </div>
 
-        <button type="submit" class="btn btn-primary w-100">Submit for Approval</button>
-    </form>
-</div>
+            <!-- Vehicle Price -->
+            <div class="mb-3">
+                <label for="price">Price</label>
+                <input type="number" id="price" name="price" required class="form-control">
+            </div>
 
+            <!-- Phone Numbers -->
+            <div class="mb-3">
+                <label for="phone1">Phone 1</label>
+                <input type="text" id="phone1" name="phone1" class="form-control">
+            </div>
 
+            <div class="mb-3">
+                <label for="phone2">Phone 2</label>
+                <input type="text" id="phone2" name="phone2" class="form-control">
+            </div>
 
+            <!-- Vehicle Description -->
+            <div class="mb-3">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="4" class="form-control"></textarea>
+            </div>
 
-<footer class="bg-dark text-white text-center py-4">
-      <div>
-        <a
-          href="https://www.facebook.com/"
-          target="_blank"
-          class="text-white mx-2"
-        >
-          <i class="fab fa-facebook fa-2x"></i>
-        </a>
-        <a
-          href="https://www.twitter.com/"
-          target="_blank"
-          class="text-white mx-2"
-        >
-          <i class="fab fa-twitter fa-2x"></i>
-        </a>
-        <a
-          href="https://www.instagram.com/"
-          target="_blank"
-          class="text-white mx-2"
-        >
-          <i class="fab fa-instagram fa-2x"></i>
-        </a>
-        <a
-          href="https://www.linkedin.com/"
-          target="_blank"
-          class="text-white mx-2"
-        >
-          <i class="fab fa-linkedin fa-2x"></i>
-        </a>
-      </div>
-      <p>&copy; 2024 Rent & Ride. All rights reserved.</p>
-    </footer>
+            <!-- Category Selection -->
+            <h4>Vehicle Category</h4>
+            <div class="mb-3">
+              <input type="radio" name="category" value="Car" id="car" required> <label for="car">Car</label>
+              <input type="radio" name="category" value="Van" id="van" required> <label for="van">Van</label>
+              <input type="radio" name="category" value="Scooter" id="scooter" required> <label for="scooter">Scooter</label>
+              <input type="radio" name="category" value="Motorbike" id="motorbike" required> <label for="motorbike">Motorbike</label>
+              <input type="radio" name="category" value="Three-Wheel" id="three-wheel" required> <label for="three-wheel">Three-Wheel</label>
+            </div>
 
-    <script src="script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+            <!-- Vehicle Image Upload -->
+            <div class="mb-3">
+                <label for="image">Upload Vehicle Image</label>
+                <input type="file" id="image" name="image" accept="image/*" required class="form-control">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Vehicle</button>
+        </form>
+    </div>
+</body>
 </html>
