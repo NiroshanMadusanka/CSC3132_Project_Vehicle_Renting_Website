@@ -6,7 +6,7 @@ include 'connectDB.php';
 $category = isset($_GET['category']) ? $_GET['category'] : '';
 
 
-$sql = "SELECT * FROM vehicles WHERE category = ?";
+$sql = "SELECT * FROM vehicles WHERE category = ? AND approved = 1";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $category);
 $stmt->execute();
@@ -123,11 +123,11 @@ $conn->close();
                 <?php foreach ($vehicles as $vehicle): ?>
                     <div class="col-md-4 mb-4">
                         <div class="card">
-                            <img src="uploads/<?php echo $vehicle['image']; ?>" class="card-img-top" alt="<?php echo $vehicle['name']; ?>">
-                            <div class="card-body">
-                                <h5 class="card-title"><?php echo $vehicle['name']; ?></h5>
+                        <img src="uploads/<?php echo $vehicle['image']; ?>" class="card-img-top" alt="<?php echo $vehicle['category']; ?>">
+                        <div class="card-body">
+                                <h5 class="card-title"><?php echo $vehicle['model']; ?></h5>
                                 <p class="card-text"><?php echo $vehicle['description']; ?></p>
-                                <p class="card-text"><strong>Price per day:</strong> $<?php echo $vehicle['price_per_day']; ?></p>
+                                <p class="card-text"><strong>Price per day:</strong> $<?php echo $vehicle['price']; ?></p>
                                 <a href="bookvehicle.php?id=<?php echo $vehicle['id']; ?>" class="btn btn-theme">Book Now</a>
                             </div>
                         </div>
