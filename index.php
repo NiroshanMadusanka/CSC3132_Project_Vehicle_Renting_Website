@@ -95,38 +95,88 @@ session_start();
     </nav>
 
     <header class="hero d-flex align-items-center">
-      <div class="container text-center text-white">
-        <h1 class="mb-4">Find Your Perfect Vehicle</h1>
-        <form class="search-bar row g-2 justify-content-center">
-          <div class="col-md-3">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Pick-up Location"
-              required
-            />
-          </div>
-          <div class="col-md-2">
-            <input
-              type="date"
-              class="form-control"
-              placeholder="Pick-up Date"
-              required
-            />
-          </div>
-          <div class="col-md-2">
-            <input
-              type="date"
-              class="form-control"
-              placeholder="Return Date"
-              required
-            />
-          </div>
-          <div class="col-md-2">
-            <button class="btn btn-primary w-100">Search</button>
-          </div>
-        </form>
+    <div class="container text-center text-white">
+  <h1 class="mb-4">Find Your Perfect Vehicle</h1>
+  <form class="search-bar row g-2 justify-content-center" method="GET" action="search.php">
+    <!-- Row for Pick-up and Drop Sections -->
+    <div class="row w-100 mb-3">
+      <!-- Left Column for Pick-up -->
+      <div class="col-md-5">
+        <!-- Pick-up Location -->
+        <div class="mb-3">
+          <select class="form-control" name="pickup_location" required>
+            <option value="" disabled selected>Select Pick-up Location</option>
+            <option value="Colombo">Colombo</option>
+            <option value="Kandy">Kandy</option>
+            <option value="Galle">Galle</option>
+            <option value="Jaffna">Jaffna</option>
+            <!-- Add other districts as needed -->
+          </select>
+        </div>
+        
+        <!-- Pick-up Date -->
+        <div class="mb-3">
+          <input
+            type="date"
+            class="form-control"
+            name="pickup_date"
+            required
+          />
+        </div>
       </div>
+
+      <!-- Center Column for Vehicle Category -->
+      <div class="col-md-2">
+        <!-- Vehicle Category -->
+        <div class="mb-3">
+          <select class="form-control" name="category" required>
+            <option value="" disabled selected>Select Vehicle Category</option>
+            <option value="Car">Car</option>
+            <option value="Van">Van</option>
+            <option value="Three-Wheel">Three-Wheel</option>
+            <option value="Motorbike">Motorbike</option>
+            <option value="Scooter">Scooter</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Right Column for Drop -->
+      <div class="col-md-5">
+        <!-- Drop Location -->
+        <div class="mb-3">
+          <select class="form-control" name="drop_location" required>
+            <option value="" disabled selected>Select Drop Location</option>
+            <option value="Colombo">Colombo</option>
+            <option value="Kandy">Kandy</option>
+            <option value="Galle">Galle</option>
+            <option value="Jaffna">Jaffna</option>
+            <!-- Add other districts as needed -->
+          </select>
+        </div>
+
+        <!-- Drop Date -->
+        <div class="mb-3">
+          <input
+            type="date"
+            class="form-control"
+            name="drop_date"
+            required
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Centered Search Button -->
+    <div class="row">
+      <div class="col-md-12">
+        <button class="btn btn-primary w-25 mx-auto" type="submit">Search</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+
     </header>
 
     <section class="container text-center mt-5">
