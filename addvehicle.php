@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'] ?? ''; 
     $email = $_POST['email'] ?? ''; 
     $model = $_POST['model'] ?? ''; 
+    $location = $_POST['location'] ?? '';
     $year = $_POST['year'] ?? null; 
     $color = $_POST['color'] ?? ''; 
     $price = $_POST['price'] ?? 0.0; 
@@ -60,8 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     
     
-    $sql = "INSERT INTO vehicles (owner_id, model, year, color, price, description, approved, status, created_at, phone1, phone2, image, category) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, ?)";
+    $sql = "INSERT INTO vehicles (owner_id, model, year, color, price, description, approved, status, created_at, phone1, phone2, image, category, location) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, ?, ?)";
     
     
     $stmt = $conn->prepare($sql);
@@ -72,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     
     
-    $stmt->bind_param("isisdsssssss", $_SESSION['user_id'], $model, $year, $color, $price, $description, $approved, $status, $phone1, $phone2, $image, $category);
+    $stmt->bind_param("isisdssssssss", $_SESSION['user_id'], $model, $year, $color, $price, $description, $approved, $status, $phone1, $phone2, $image, $category, $location);
 
     
     if ($stmt->execute()) {
@@ -219,6 +220,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label for="model">Model</label>
                 <input type="text" id="model" name="model" required class="form-control">
             </div>
+            <div class="mb-3">
+    <label for="location">Location</label>
+    <select id="location" name="location" required class="form-control">
+        <option value="">Select a District</option>
+        <option value="Colombo">Colombo</option>
+        <option value="Kandy">Kandy</option>
+        <option value="Galle">Galle</option>
+        <option value="Jaffna">Jaffna</option>
+        <option value="Anuradhapura">Anuradhapura</option>
+        <option value="Gampaha">Gampaha</option>
+        <option value="Matara">Matara</option>
+        <option value="Kurunegala">Kurunegala</option>
+        <option value="Nuwara Eliya">Nuwara Eliya</option>
+        <option value="Trincomalee">Trincomalee</option>
+        <option value="Batticaloa">Batticaloa</option>
+        <option value="Badulla">Badulla</option>
+        
+    </select>
+</div>
 
             
             <div class="mb-3">
