@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     // Bind parameters to the SQL query
     // Use "isssdsdssss" for the data types
-    $stmt->bind_param("isssdsdssss", $_SESSION['user_id'], $model, $year, $color, $price, $description, $approved, $status, $phone1, $phone2, $image, $category);
+    $stmt->bind_param("isssdissssss", $_SESSION['user_id'], $model, $year, $color, $price, $description, $approved, $status, $phone1, $phone2, $image, $category);
 
     // Execute the query
     if ($stmt->execute()) {
