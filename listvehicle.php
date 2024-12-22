@@ -6,7 +6,8 @@ include 'connectDB.php';
 $category = isset($_GET['category']) ? $_GET['category'] : '';
 
 
-$sql = "SELECT * FROM vehicles WHERE category = ? AND approved = 1";
+$sql = "SELECT vehicle_id, model, description, category,price, image FROM vehicles WHERE category = ? AND approved = 1 AND is_booked = 0";
+
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $category);
 $stmt->execute();
@@ -48,6 +49,26 @@ $conn->close();
         background-size: cover;
         padding-top: 70px;
       }
+      .btn-theme {
+        background-color: #00cdfe;
+        color: white;
+        border: none;
+        border-radius: 30px;
+        padding: 10px 20px;
+        transition: background-color 0.3s ease;
+      }
+
+    .btn-theme:hover {
+       background-color: #009cc0;
+        color: white;
+      }
+      .card-img-top {
+        width: 100%;  
+        height: 200px; 
+        object-fit: cover;  
+        object-position: center; 
+      }
+
     </style>
   </head>
 
@@ -128,7 +149,7 @@ $conn->close();
                                 <h5 class="card-title"><?php echo $vehicle['model']; ?></h5>
                                 <p class="card-text"><?php echo $vehicle['description']; ?></p>
                                 <p class="card-text"><strong>Price per day:</strong> $<?php echo $vehicle['price']; ?></p>
-                                <a href="bookvehicle.php?id=<?php echo $vehicle['id']; ?>" class="btn btn-theme">Book Now</a>
+                                <a href="bookvehicle.php?id=<?php echo $vehicle['vehicle_id']; ?>" class="btn btn-theme">Book Now</a>
                             </div>
                         </div>
                     </div>

@@ -25,6 +25,13 @@ session_start();
         background-size: cover;
         padding-top: 70px;
       }
+      .card-img-top {
+          width: 100%;  
+          height: 200px; 
+          object-fit: cover;  
+          object-position: center; 
+      }
+
     </style>
   </head>
 
