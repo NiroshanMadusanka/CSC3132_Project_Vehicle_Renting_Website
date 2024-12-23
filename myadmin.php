@@ -17,6 +17,10 @@ $pending_requests_result = $conn->query("SELECT COUNT(*) AS count FROM vehicles 
 $pending_requests_row = $pending_requests_result->fetch_assoc();
 $pending_requests = $pending_requests_row['count'] ?? 0;
 
+$pending_booking_result = $conn->query("SELECT COUNT(*) AS count FROM bookings WHERE status = 'Pending'");
+$pending_booking_row = $pending_booking_result->fetch_assoc();
+$pending_booking = $pending_booking_row['count'] ?? 0;
+
 $contact_submissions_result = $conn->query("SELECT COUNT(*) AS count FROM contact_submissions WHERE reviewed = 0 ");
 $contact_submissions_row = $contact_submissions_result->fetch_assoc();
 $contact_submissions = $contact_submissions_row['count'] ?? 0;
@@ -116,9 +120,18 @@ $contact_submissions = $contact_submissions_row['count'] ?? 0;
         <div class="col-md-3">
             <div class="card text-center">
                 <div class="card-body">
-                    <h5 class="card-title">Pending Requests</h5>
+                    <h5 class="card-title">Pending Vehicle Requests</h5>
                     <p class="card-text"><?php echo $pending_requests; ?></p>
                     <a href="approve_vehicles.php" class="btn btn-sm btn-warning">Approve Vehicles</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Pending Booking Requests</h5>
+                    <p class="card-text"><?php echo $pending_booking; ?></p>
+                    <a href="manage_bookings.php" class="btn btn-sm btn-success">Manage Bookkings</a>
                 </div>
             </div>
         </div>
