@@ -59,11 +59,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
         if ($start_date && $end_date && $pickup_location && $drop_location && $primary_phone && $secondary_phone) {
-            $sql = "INSERT INTO bookings (user_id, vehicle_id, start_date, end_date, pickup_location, drop_location, primary_phone, secondary_phone, driver_option, total_fee, status, payment_method, reference_number) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending', 'Bank', ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("issssssssdsss", $_SESSION['user_id'], $vehicle_id, $start_date, $end_date, $pickup_location, $drop_location, $primary_phone, $secondary_phone, $driver_option, $total_fee, $status, $payment_method, $reference_number);
-   if ($stmt->execute()) {
+            $sql = "INSERT INTO bookings (user_id, vehicle_id, start_date, end_date, pickup_location, drop_location, primary_phone, secondary_phone, driver_option, total_fee, reference_number) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+// Prepare the statement
+$stmt = $conn->prepare($sql);
+
+// Bind the parameters
+$stmt->bind_param("iisssssssds", $_SESSION['user_id'], $vehicle_id, $start_date, $end_date, $pickup_location, $drop_location, $primary_phone, $secondary_phone, $driver_option, $total_fee, $reference_number);
+
+  if ($stmt->execute()) {
                 echo "<script>alert('Booking request submitted successfully!'); window.location.href = 'index.php';</script>";
                 exit();
             } else {
