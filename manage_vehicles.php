@@ -29,7 +29,7 @@ if (isset($_GET['delete'])) {
 }
 
 // Fetch vehicles from the database
-$sql = "SELECT * FROM vehicles";
+$sql = "SELECT * FROM vehicles WHERE approved = 1";
 $result = $conn->query($sql);
 
 ?>

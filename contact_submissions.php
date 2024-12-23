@@ -46,7 +46,7 @@ $result_reviewed = $conn->query($sql_reviewed);
     />
     <style>
       body {
-       /* background: url("img/admin_back.jpg") no-repeat center center fixed;*/
+        /*background: url("img/admin_back.jpg") no-repeat center center fixed;*/
         background-size: cover;
         padding-top: 70px;
       }
@@ -118,7 +118,7 @@ $result_reviewed = $conn->query($sql_reviewed);
       </div>
     </nav>
 <div class="container mt-5">
-    <h1 class="mb-4" align = "center">Contact Submissions</h1>
+    <h1 class="mb-4" align = "center">Messages</h1>
 
     
     <h2 class="mb-3">Not Reviewed</h2>

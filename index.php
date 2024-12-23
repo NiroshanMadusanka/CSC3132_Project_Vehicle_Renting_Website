@@ -26,6 +26,12 @@ session_start();
         background-size: cover;
         padding-top: 70px;
       }
+      
+      .card:hover {
+        transform: translateY(-10px);
+        
+     }
+
     </style>
   </head>
 
@@ -203,96 +209,37 @@ session_start();
     </header>
 
     <section class="container text-center mt-5">
-      <h2 class="mb-4">Why Choose Us?</h2>
-      <div class="row">
-        <div class="col-md-4">
-          <h4>Wide Selection</h4>
-          <p>Choose from a variety of vehicles for every need.</p>
-        </div>
-        <div class="col-md-4">
-          <h4>Easy Booking</h4>
-          <p>Fast and hassle-free reservation process.</p>
-        </div>
-        <div class="col-md-4">
-          <h4>Affordable Rates</h4>
-          <p>Enjoy competitive pricing for all rentals.</p>
-        </div>
+  <h2 class="mb-4" style="font-size: 2.5rem; font-weight: bold; color: white;">Why Choose Us?</h2>
+  <div class="row">
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-lg border-0 rounded-lg p-4" style="transition: transform 0.3s;">
+        <i class="fas fa-car fa-3x mb-3" style="color:rgb(0, 0, 0);"></i>
+        <h4 class="font-weight-bold">Wide Selection</h4>
+        <p class="text-muted">Choose from a variety of vehicles for every need.</p>
       </div>
-    </section>
-
-    <section class="container mt-5">
-      <h2 class="text-center mb-4">Our Vehicles</h2>
-      <div class="row">
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <img src="img/car.jpg" class="card-img-top" alt="Car" />
-            <div class="card-body">
-              <h5 class="card-title">Car</h5>
-              <p class="card-text">
-                Comfortable and reliable cars for your journey.
-              </p>
-              <a href="#" class="btn btn-primary">Book Now</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <img src="img/van.jpg" class="card-img-top" alt="Van" />
-            <div class="card-body">
-              <h5 class="card-title">Van</h5>
-              <p class="card-text">Perfect for family trips or group travel.</p>
-              <a href="#" class="btn btn-primary">Book Now</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <img src="img/scooter.jpg" class="card-img-top" alt="Scooter" />
-            <div class="card-body">
-              <h5 class="card-title">Scooter</h5>
-              <p class="card-text">
-                Great for quick and easy transport around the city.
-              </p>
-              <a href="#" class="btn btn-primary">Book Now</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <img
-              src="img/motor_bikes.jpg"
-              class="card-img-top"
-              alt="Motorbike"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Motorbike</h5>
-              <p class="card-text">Fast and fun way to get around.</p>
-              <a href="#" class="btn btn-primary">Book Now</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <img
-              src="img/threewheel.jpg"
-              class="card-img-top"
-              alt="Three-Wheel"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Three-Wheel</h5>
-              <p class="card-text">
-                Enjoy a unique and fun ride with our three-wheeled vehicles.
-              </p>
-              <a href="#" class="btn btn-primary">Book Now</a>
-            </div>
-          </div>
-        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-lg border-0 rounded-lg p-4" style="transition: transform 0.3s;">
+        <i class="fas fa-calendar-check fa-3x mb-3" style="color:rgb(0, 0, 0);"></i>
+        <h4 class="font-weight-bold">Easy Booking</h4>
+        <p class="text-muted">Fast and hassle-free reservation process.</p>
       </div>
-    </section>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-lg border-0 rounded-lg p-4" style="transition: transform 0.3s;">
+        <i class="fas fa-tags fa-3x mb-3" style="color:rgb(0, 0, 0);"></i>
+        <h4 class="font-weight-bold">Affordable Rates</h4>
+        <p class="text-muted">Enjoy competitive pricing for all rentals.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+    
 
     <footer class="bg-dark text-white text-center py-4">
       <div>
@@ -327,6 +274,12 @@ session_start();
       </div>
       <p>&copy; 2024 Rent & Ride. All rights reserved.</p>
     </footer>
+
+    <script>
+        $(document).ready(function() {
+        $(".container").fadeIn(1000);
+      });
+    </script>
 
     <script src="script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

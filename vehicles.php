@@ -27,13 +27,13 @@ session_start();
         padding-top: 70px;
       }
       .btn-theme {
-        background-color: #00cdfe;
+        background-color:rgb(0, 0, 0);
         color: white;
         border-radius: 20px;
       }
 
       .btn-theme:hover {
-        background-color: #0099cc;
+        background-color:rgb(255, 255, 255);
       }
       section.container {
         margin-top: 80px; 
