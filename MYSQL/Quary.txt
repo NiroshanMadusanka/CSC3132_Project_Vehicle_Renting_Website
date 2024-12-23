@@ -2,7 +2,6 @@
  
  CREATE DATABASE vehicle_renting;
 
-USE vehicle_renting;
 
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
