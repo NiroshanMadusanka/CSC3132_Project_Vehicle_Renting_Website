@@ -1,5 +1,31 @@
 <?php
 session_start();
+include 'connectDB.php';
+if (isset($_GET['delete'])) {
+  $vehicle_id = $_GET['delete'];
+
+  // Delete vehicle from the database
+  $sql = "DELETE FROM vehicles WHERE vehicle_id = ?";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param("i", $vehicle_id);
+
+  if ($stmt->execute()) {
+      // Success message
+      $message = "Vehicle deleted successfully.";
+      $alert_type = "success";  // Success alert
+  } else {
+      // Error message
+      $message = "Error deleting vehicle: " . $conn->error;
+      $alert_type = "error";  // Error alert
+  }
+
+  $stmt->close();
+}
+
+// Fetch vehicles from the database
+$sql = "SELECT * FROM vehicles";
+$result = $conn->query($sql);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -99,6 +125,110 @@ session_start();
         </div>
       </div>
     </nav>
+
+    <div class="container mt-5">
+        <h2 class="text-center">Manage Vehicles</h2>
+        
+        <div class="row">
+            <?php
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $vehicle_id = $row['vehicle_id'];
+                    $model = $row['model'];
+                    $price = $row['price'];
+                    $color = $row['color'];
+                    $description = $row['description'];
+                    $status = $row['status'];
+                    $phone1 = $row['phone1'];
+                    $phone2 = $row['phone2'];
+                    $image = $row['image'];
+                    $category = $row['category'];
+                    $is_booked = $row['is_booked'];
+                    $location = $row['location'];
+                    $no_booking = $row['no_booking'];
+                    $created_at = $row['created_at'];
+
+                    // Check if the vehicle hasn't been rented for at least one month
+                    $date = new DateTime($created_at);
+                    $now = new DateTime();
+                    $interval = $date->diff($now);
+                    $is_long_time = ($interval->m >= 1) ? true : false;
+                    ?>
+
+                    <!-- Vehicle Card -->
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="uploads/<?php echo $image; ?>" class="card-img-top" alt="Vehicle Image">
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo $model; ?></h5>
+                                <p class="card-text"><strong>Price:</strong> $<?php echo $price; ?></p>
+                                <p class="card-text"><strong>Color:</strong> <?php echo $color; ?></p>
+                                <p class="card-text"><strong>Description:</strong> <?php echo $description ? $description : 'No description available'; ?></p>
+                                <p class="card-text"><strong>Status:</strong> <?php echo ucfirst($status); ?></p>
+                                <p class="card-text"><strong>Phone 1:</strong> <?php echo $phone1; ?></p>
+                                <p class="card-text"><strong>Phone 2:</strong> <?php echo $phone2 ? $phone2 : 'Not available'; ?></p>
+                                <p class="card-text"><strong>Category:</strong> <?php echo $category; ?></p>
+                                <p class="card-text"><strong>Location:</strong> <?php echo $location; ?></p>
+                                <p class="card-text"><strong>Bookings:</strong> <?php echo $no_booking; ?></p>
+                                <p class="card-text"><strong>Created At:</strong> <?php echo $created_at; ?></p>
+                                <p class="card-text"><strong>Is Booked:</strong> <?php echo $is_booked ? 'Yes' : 'No'; ?></p>
+                                
+                                <?php if ($is_long_time): ?>
+                                    <p class="text-warning">Not rented for a long time</p>
+                                <?php endif; ?>
+                                
+                                <a href="editvehicle.php?vehicle_id=<?php echo $vehicle_id; ?>" class="btn btn-primary">Edit</a>
+                                <a href="manage_vehicles.php?delete=<?php echo $vehicle_id; ?>" class="btn btn-danger">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <?php
+                }
+            } else {
+                echo "<p>No vehicles found.</p>";
+            }
+            ?>
+        </div>
+
+        <div class="row mt-5">
+            <h3>Vehicles Not Rented for Long</h3>
+            <?php
+            // Query for vehicles not rented for at least one month
+            $sql_long_time = "SELECT * FROM vehicles WHERE DATEDIFF(CURRENT_DATE, created_at) >= 30";
+            $result_long_time = $conn->query($sql_long_time);
+            
+            if ($result_long_time->num_rows > 0) {
+                while ($row = $result_long_time->fetch_assoc()) {
+                    $vehicle_id = $row['vehicle_id'];
+                    $model = $row['model'];
+                    $price = $row['price'];
+                    $image = $row['image'];
+                    ?>
+                    <!-- Vehicle Card for Long Not Rented -->
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="uploads/<?php echo $image; ?>" class="card-img-top" alt="Vehicle Image">
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo $model; ?></h5>
+                                <p class="card-text"><strong>Price:</strong> $<?php echo $price; ?></p>
+                                <p class="text-warning">Not rented for at least one month</p>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                }
+            } else {
+                echo "<p>No vehicles have been rented for a long time.</p>";
+            }
+            ?>
+        </div>
+
+    </div>
+
+    
+
+
 <footer class="bg-dark text-white text-center py-4">
       <div>
         <a
@@ -135,5 +265,12 @@ session_start();
 
     <script src="script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </body>
 </html>
+
+<?php
+$conn->close();
+?>
