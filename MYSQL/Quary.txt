@@ -1,7 +1,7 @@
  mysql -h 127.0.0.1 -u root -p
  
  CREATE DATABASE vehicle_renting;
-
+use vehicle_renting;
 
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
