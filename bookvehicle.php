@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $primary_phone = $_POST['primary_phone'] ?? null;
     $secondary_phone = $_POST['secondary_phone'] ?? null;
     $driver_option = $_POST['driver_option'] ?? null;
-    $reference_number=$_POST['reference_number']??null;
+    $reference_number = $_POST['reference_number'] ?? null;
     
 
     if (isset($_POST['calculate_fee'])) {
@@ -60,10 +60,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         if ($start_date && $end_date && $pickup_location && $drop_location && $primary_phone && $secondary_phone) {
             $sql = "INSERT INTO bookings (user_id, vehicle_id, start_date, end_date, pickup_location, drop_location, primary_phone, secondary_phone, driver_option, total_fee, status, payment_method, reference_number) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending','Bank', ?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("iisssssssss", $_SESSION['user_id'], $vehicle_id, $start_date, $end_date, $pickup_location, $drop_location, $primary_phone, $secondary_phone, $driver_option, $total_fee,$reference_number);
-            if ($stmt->execute()) {
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending', 'Bank', ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("issssssssdsss", $_SESSION['user_id'], $vehicle_id, $start_date, $end_date, $pickup_location, $drop_location, $primary_phone, $secondary_phone, $driver_option, $total_fee, $status, $payment_method, $reference_number);
+   if ($stmt->execute()) {
                 echo "<script>alert('Booking request submitted successfully!'); window.location.href = 'index.php';</script>";
                 exit();
             } else {
@@ -236,10 +236,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
 
                         <div id="bank-details" style="display:none;">
-                            <div class="form-group">
-                                <label for="reference_number">Bank Reference Number:</label>
-                                <input type="text" class="form-control" id="reference_number" name="reference_number" required>
+                        <div class="form-group">
+                            <label for="reference_number">Bank Reference Number:</label>
+                            <input type="text" class="form-control" id="reference_number" name="reference_number" required value="<?php echo isset($_POST['reference_number']) ? $_POST['reference_number'] : ''; ?>">
                             </div>
+
                         </div>
                     </div>
 
