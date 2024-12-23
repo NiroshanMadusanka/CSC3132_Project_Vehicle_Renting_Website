@@ -1,6 +1,12 @@
 <?php
 session_start();
 include 'connectDB.php';
+if (isset($_GET['message'])) {
+  $message = urldecode($_GET['message']);
+  echo "<script type='text/javascript'>
+          alert('$message');
+        </script>";
+}
 if (isset($_GET['delete'])) {
   $vehicle_id = $_GET['delete'];
 
