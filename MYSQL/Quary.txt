@@ -58,3 +58,25 @@ SELECT * FROM users;
 SELECT * FROM vehicles;
 SELECT * FROM bookings;
 
+CREATE TABLE bookings (
+    booking_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    vehicle_id INT NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    pickup_location VARCHAR(255) NOT NULL,
+    drop_location VARCHAR(255) NOT NULL,
+    primary_phone VARCHAR(20) NOT NULL,
+    secondary_phone VARCHAR(20),
+    driver_option ENUM('Yes', 'No') NOT NULL,
+    total_fee DECIMAL(10, 2) NOT NULL,
+    status ENUM('Pending', 'Confirmed', 'Cancelled') DEFAULT 'Pending',
+    is_confirmed TINYINT(1) DEFAULT 0,
+    payment_method ENUM('bank', 'card') DEFAULT NULL,
+    reference_number VARCHAR(255) DEFAULT NULL,
+    bank_slip VARCHAR(255) DEFAULT NULL,
+    booking_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (vehicle_id) REFERENCES vehicles(vehicle_id)
+);
+
