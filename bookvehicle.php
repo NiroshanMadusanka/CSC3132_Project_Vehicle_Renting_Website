@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $primary_phone = $_POST['primary_phone'];
     $secondary_phone = $_POST['secondary_phone'];
 
-    $driver_option = $_POST['driver_option']; // Driver option (Yes/No)
+$driver_option = $_POST['driver_option']; // Driver option (Yes/No)
     $terms_conditions = isset($_POST['terms_conditions']) ? 1 : 0;
 
     // Calculate rental fee
