@@ -17,6 +17,10 @@ $pending_requests_result = $conn->query("SELECT COUNT(*) AS count FROM vehicles 
 $pending_requests_row = $pending_requests_result->fetch_assoc();
 $pending_requests = $pending_requests_row['count'] ?? 0;
 
+$contact_submissions_result = $conn->query("SELECT COUNT(*) AS count FROM contact_submissions WHERE reviewed = 0 ");
+$contact_submissions_row = $contact_submissions_result->fetch_assoc();
+$contact_submissions = $contact_submissions_row['count'] ?? 0;
+
 ?>
 
 <!DOCTYPE html>
@@ -115,6 +119,15 @@ $pending_requests = $pending_requests_row['count'] ?? 0;
                     <h5 class="card-title">Pending Requests</h5>
                     <p class="card-text"><?php echo $pending_requests; ?></p>
                     <a href="approve_vehicles.php" class="btn btn-sm btn-warning">Approve Vehicles</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">User Messages</h5>
+                    <p class="card-text"><?php echo $contact_submissions; ?></p>
+                    <a href="contact_submissions.php" class="btn btn-sm btn-warning">Review</a>
                 </div>
             </div>
         </div>

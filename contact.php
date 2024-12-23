@@ -1,5 +1,34 @@
 <?php
 session_start();
+
+require_once "connectDB.php";
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  // Get form data
+  $name = $conn->real_escape_string($_POST['name']);
+  $email = $conn->real_escape_string($_POST['email']);
+  $message = $conn->real_escape_string($_POST['message']);
+
+  // Insert data into the contact_submissions table
+  $sql = "INSERT INTO contact_submissions (name, email, message) VALUES ('$name', '$email', '$message')";
+
+  if ($conn->query($sql) === TRUE) {
+    echo "<script>
+            alert('Thank you for contacting us! Your message has been received.');
+            window.location.href = 'contact.php'; // Redirect after the alert
+          </script>";
+} else {
+    echo "<script>
+            alert('There was an error submitting your message: " . addslashes($conn->error) . "');
+            window.location.href = 'contact.php'; // Redirect after the alert
+          </script>";
+}
+
+}
+
+$conn->close();
+
 ?>
 
 <!DOCTYPE html>
@@ -169,42 +198,24 @@ session_start();
         </div>
       </div>
 
-      <div class="mt-5">
-        <h3>Send us a message</h3>
-        <form action="submit_form.php" method="post">
-          <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input
-              type="text"
-              class="form-control"
-              id="name"
-              name="name"
-              required
-            />
-          </div>
-          <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input
-              type="email"
-              class="form-control"
-              id="email"
-              name="email"
-              required
-            />
-          </div>
-          <div class="mb-3">
-            <label for="message" class="form-label">Message</label>
-            <textarea
-              class="form-control"
-              id="message"
-              name="message"
-              rows="4"
-              required
-            ></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+      <div class="container mt-5">
+        <h1 class="text-center mb-4">Contact Us</h1>
+        <form action="contact.php" method="POST">
+            <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Your Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Your Message</label>
+                <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-      </div>
+    </div>
     </section>
     <footer class="bg-dark text-white text-center py-4">
       <div>
