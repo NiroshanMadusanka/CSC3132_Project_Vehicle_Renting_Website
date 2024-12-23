@@ -148,7 +148,7 @@ $conn->close();
                         <div class="card-body">
                                 <h5 class="card-title"><?php echo $vehicle['model']; ?></h5>
                                 <p class="card-text"><?php echo $vehicle['description']; ?></p>
-                                <p class="card-text"><strong>Price per day:</strong> $<?php echo $vehicle['price']; ?></p>
+                                <p class="card-text"><strong>Price per day:</strong> Rs. <?php echo $vehicle['price']; ?></p>
                                 <a href="bookvehicle.php?id=<?php echo $vehicle['vehicle_id']; ?>" class="btn btn-theme">Book Now</a>
                             </div>
                         </div>
