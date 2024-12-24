@@ -172,7 +172,7 @@ $conn->close();
 
         <!-- Buttons -->
         <div class="d-flex justify-content-between">
-            <button type="submit" class="btn btn-custom">Confirm</button>
+            <button type="button" class="btn btn-custom" onclick="submitBookingForm()">Next</button>
             <button type="reset" class="btn btn-secondary">Cancel</button>
         </div>
     </form>
@@ -192,7 +192,13 @@ $conn->close();
         selectedDate.setDate(selectedDate.getDate() + 1);
         dropDate.min = selectedDate.toISOString().split('T')[0];
     });
+
+    // Submit form using JavaScript to redirect to confirm_booking.php
+    function submitBookingForm() {
+        document.getElementById('bookingForm').submit();
+    }
 </script>
 
 </body>
 </html>
+

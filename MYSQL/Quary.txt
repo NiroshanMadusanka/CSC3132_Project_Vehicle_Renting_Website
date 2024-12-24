@@ -39,16 +39,23 @@ CREATE TABLE contact_submissions (
 
 
 CREATE TABLE bookings (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    booking_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     vehicle_id INT NOT NULL,
-    start_date DATE,
-    end_date DATE,
-    status ENUM('pending', 'confirmed', 'cancelled') DEFAULT 'pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    pickup_location VARCHAR(255) NOT NULL,
+    drop_location VARCHAR(255) NOT NULL,
+    primary_phone VARCHAR(15) NOT NULL,
+    secondary_phone VARCHAR(15),
+    driver_option ENUM('yes', 'no') NOT NULL,
+    total_fee DECIMAL(10, 2) NOT NULL,
+    payment_method ENUM('bank', 'card') NOT NULL,
+    reference_number VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (vehicle_id) REFERENCES vehicles(id)
+    FOREIGN KEY (vehicle_id) REFERENCES vehicles(vehicle_id)
 );
+
 
 DESC users;
 DESC vehicles;
