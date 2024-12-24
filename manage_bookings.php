@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'confirm') {
         $sql = "UPDATE bookings SET status = 'Confirmed' WHERE booking_id = ? AND status = 'Pending'";
     } elseif ($action === 'cancel') {
-        $sql = "UPDATE bookings SET status = 'Cancelled' WHERE booking_id = ? AND status = 'Pending'";
+        $sql = "UPDATE bookings SET status = 'Canceled' WHERE booking_id = ? AND status = 'Pending'";
     }
 
     if (isset($sql)) {
@@ -32,21 +32,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Fetch bookings with user and vehicle details
-$sql_pending = "SELECT b.*, u.username, u.email, v.model, v.image, v.color, v.year, v.price 
+$sql_pending = "SELECT b.*, u.username, u.email, v.model, v.image, v.color, v.year, v.price , b.total_fee,b.payment_method,v.vehicle_id,b.user_id,b.reference_number
                 FROM bookings b 
                 JOIN users u ON b.user_id = u.id 
                 JOIN vehicles v ON b.vehicle_id = v.vehicle_id 
                 WHERE b.status = 'Pending'";
-$sql_confirmed = "SELECT b.*, u.username, u.email, v.model, v.image, v.color, v.year, v.price 
+$sql_confirmed = "SELECT b.*, u.username, u.email, v.model, v.image, v.color, v.year, v.price ,b.total_fee,b.payment_method,v.vehicle_id,b.user_id
                   FROM bookings b 
                   JOIN users u ON b.user_id = u.id 
                   JOIN vehicles v ON b.vehicle_id = v.vehicle_id 
                   WHERE b.status = 'Confirmed'";
-$sql_cancelled = "SELECT b.*, u.username, u.email, v.model, v.image, v.color, v.year, v.price 
+$sql_cancelled = "SELECT b.*, u.username, u.email, v.model, v.image, v.color, v.year, v.price ,b.total_fee,b.payment_method,v.vehicle_id,b.user_id
                   FROM bookings b 
                   JOIN users u ON b.user_id = u.id 
                   JOIN vehicles v ON b.vehicle_id = v.vehicle_id 
-                  WHERE b.status = 'Cancelled'";
+                  WHERE b.status = 'Canceled'";
 $result_pending = $conn->query($sql_pending);
 $result_confirmed = $conn->query($sql_confirmed);
 $result_cancelled = $conn->query($sql_cancelled);
@@ -134,6 +134,10 @@ $result_cancelled = $conn->query($sql_cancelled);
             background-color: #dc3545;
             color: #fff;
         }
+        table td, table th {
+        text-align: left;
+    }
+
     </style>
 </head>
 <body>
@@ -148,12 +152,53 @@ $result_cancelled = $conn->query($sql_cancelled);
                     <div class="card">
                         <img src="uploads/<?= htmlspecialchars($row['image']); ?>" alt="Vehicle Image">
                         <div class="card-content">
-                            <h3>Booking ID: <?= htmlspecialchars($row['booking_id']); ?></h3>
-                            <p><strong>User:</strong> <?= htmlspecialchars($row['username']); ?> (<?= htmlspecialchars($row['email']); ?>)</p>
-                            <p><strong>Vehicle:</strong> <?= htmlspecialchars($row['model']); ?> (<?= htmlspecialchars($row['year']); ?>, <?= htmlspecialchars($row['color']); ?>)</p>
-                            <p><strong>Price:</strong> $<?= htmlspecialchars($row['price']); ?></p>
-                            <p><strong>Start Date:</strong> <?= htmlspecialchars($row['start_date']); ?></p>
-                            <p><strong>Pickup:</strong> <?= htmlspecialchars($row['pickup_location']); ?></p>
+                        <table class="table table-bordered">
+    <tr>
+        <th>Booking ID</th>
+        <td><?= htmlspecialchars($row['booking_id']); ?></td>
+    </tr>
+    <tr>
+        <th>User</th>
+        <td><?= htmlspecialchars($row['username']); ?> (<?= htmlspecialchars($row['email']); ?>)</td>
+    </tr>
+    <tr>
+        <th>Vehicle</th>
+        <td><?= htmlspecialchars($row['model']); ?> (<?= htmlspecialchars($row['year']); ?>, <?= htmlspecialchars($row['color']); ?>)</td>
+    </tr>
+    <tr>
+        <th>Price</th>
+        <td>$<?= htmlspecialchars($row['price']); ?></td>
+    </tr>
+    <tr>
+        <th>Start Date</th>
+        <td><?= htmlspecialchars($row['start_date']); ?></td>
+    </tr>
+    <tr>
+        <th>Pickup</th>
+        <td><?= htmlspecialchars($row['pickup_location']); ?></td>
+    </tr>
+    <tr>
+        <th>Fee</th>
+        <td>$<?= htmlspecialchars($row['total_fee']); ?></td>
+    </tr>
+    <tr>
+        <th>Vehicle ID</th>
+        <td><?= htmlspecialchars($row['vehicle_id']); ?></td>
+    </tr>
+    <tr>
+        <th>Payment Method</th>
+        <td><?= htmlspecialchars($row['payment_method']); ?></td>
+    </tr>
+    <tr>
+        <th>Reference No</th>
+        <td><?= htmlspecialchars($row['reference_number']); ?></td>
+    </tr>
+</table>
+
+
+                            
+
+                          
                         </div>
                         <button class="btn confirm-btn" onclick="handleAction('confirm', <?= $row['booking_id']; ?>)">Confirm</button>
                         <button class="btn cancel-btn" onclick="handleAction('cancel', <?= $row['booking_id']; ?>)">Cancel</button>
@@ -172,11 +217,48 @@ $result_cancelled = $conn->query($sql_cancelled);
                     <div class="card">
                         <img src="uploads/<?= htmlspecialchars($row['image']); ?>" alt="Vehicle Image">
                         <div class="card-content">
-                            <h3>Booking ID: <?= htmlspecialchars($row['booking_id']); ?></h3>
-                            <p><strong>User:</strong> <?= htmlspecialchars($row['username']); ?> (<?= htmlspecialchars($row['email']); ?>)</p>
-                            <p><strong>Vehicle:</strong> <?= htmlspecialchars($row['model']); ?> (<?= htmlspecialchars($row['year']); ?>, <?= htmlspecialchars($row['color']); ?>)</p>
-                            <p><strong>Price:</strong> $<?= htmlspecialchars($row['price']); ?></p>
-                            <p><strong>Start Date:</strong> <?= htmlspecialchars($row['start_date']); ?></p>
+                        <table class="table table-bordered">
+    <tr>
+        <th>Booking ID</th>
+        <td><?= htmlspecialchars($row['booking_id']); ?></td>
+    </tr>
+    <tr>
+        <th>User</th>
+        <td><?= htmlspecialchars($row['username']); ?> (<?= htmlspecialchars($row['email']); ?>)</td>
+    </tr>
+    <tr>
+        <th>Vehicle</th>
+        <td><?= htmlspecialchars($row['model']); ?> (<?= htmlspecialchars($row['year']); ?>, <?= htmlspecialchars($row['color']); ?>)</td>
+    </tr>
+    <tr>
+        <th>Price</th>
+        <td>$<?= htmlspecialchars($row['price']); ?></td>
+    </tr>
+    <tr>
+        <th>Start Date</th>
+        <td><?= htmlspecialchars($row['start_date']); ?></td>
+    </tr>
+    <tr>
+        <th>Pickup</th>
+        <td><?= htmlspecialchars($row['pickup_location']); ?></td>
+    </tr>
+    <tr>
+        <th>Fee</th>
+        <td>$<?= htmlspecialchars($row['total_fee']); ?></td>
+    </tr>
+    <tr>
+        <th>Vehicle ID</th>
+        <td><?= htmlspecialchars($row['vehicle_id']); ?></td>
+    </tr>
+    <tr>
+        <th>Payment Method</th>
+        <td><?= htmlspecialchars($row['payment_method']); ?></td>
+    </tr>
+    <tr>
+        <th>Reference No</th>
+        <td><?= htmlspecialchars($row['reference_number']); ?></td>
+    </tr>
+</table>
                         </div>
                         <button class="btn confirm-btn" onclick="handleAction('confirm', <?= $row['booking_id']; ?>)">Confirm</button>
                         <button class="btn cancel-btn" onclick="handleAction('cancel', <?= $row['booking_id']; ?>)">Cancel</button>
@@ -196,11 +278,48 @@ $result_cancelled = $conn->query($sql_cancelled);
                     <div class="card">
                         <img src="uploads/<?= htmlspecialchars($row['image']); ?>" alt="Vehicle Image">
                         <div class="card-content">
-                            <h3>Booking ID: <?= htmlspecialchars($row['booking_id']); ?></h3>
-                            <p><strong>User:</strong> <?= htmlspecialchars($row['username']); ?> (<?= htmlspecialchars($row['email']); ?>)</p>
-                            <p><strong>Vehicle:</strong> <?= htmlspecialchars($row['model']); ?> (<?= htmlspecialchars($row['year']); ?>, <?= htmlspecialchars($row['color']); ?>)</p>
-                            <p><strong>Price:</strong> $<?= htmlspecialchars($row['price']); ?></p>
-                            <p><strong>Start Date:</strong> <?= htmlspecialchars($row['start_date']); ?></p>
+                        <table class="table table-bordered">
+    <tr>
+        <th>Booking ID</th>
+        <td><?= htmlspecialchars($row['booking_id']); ?></td>
+    </tr>
+    <tr>
+        <th>User</th>
+        <td><?= htmlspecialchars($row['username']); ?> (<?= htmlspecialchars($row['email']); ?>)</td>
+    </tr>
+    <tr>
+        <th>Vehicle</th>
+        <td><?= htmlspecialchars($row['model']); ?> (<?= htmlspecialchars($row['year']); ?>, <?= htmlspecialchars($row['color']); ?>)</td>
+    </tr>
+    <tr>
+        <th>Price</th>
+        <td>$<?= htmlspecialchars($row['price']); ?></td>
+    </tr>
+    <tr>
+        <th>Start Date</th>
+        <td><?= htmlspecialchars($row['start_date']); ?></td>
+    </tr>
+    <tr>
+        <th>Pickup</th>
+        <td><?= htmlspecialchars($row['pickup_location']); ?></td>
+    </tr>
+    <tr>
+        <th>Fee</th>
+        <td>$<?= htmlspecialchars($row['total_fee']); ?></td>
+    </tr>
+    <tr>
+        <th>Vehicle ID</th>
+        <td><?= htmlspecialchars($row['vehicle_id']); ?></td>
+    </tr>
+    <tr>
+        <th>Payment Method</th>
+        <td><?= htmlspecialchars($row['payment_method']); ?></td>
+    </tr>
+    <tr>
+        <th>Reference No</th>
+        <td><?= htmlspecialchars($row['reference_number']); ?></td>
+    </tr>
+</table>
                         </div>
                         <button class="btn confirm-btn" onclick="handleAction('confirm', <?= $row['booking_id']; ?>)">Confirm</button>
                         <button class="btn cancel-btn" onclick="handleAction('cancel', <?= $row['booking_id']; ?>)">Cancel</button>
