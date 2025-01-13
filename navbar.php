@@ -43,13 +43,32 @@
               >
             </li>
             <?php endif; ?>
+            
 
            
             <?php if (isset($_SESSION['user_id'])): ?>
             <li class="nav-item">
-              <a class="nav-link btn btn-secondary text-white" href="logout.php"
-                >Logout</a
-              >
+            <div class="dropdown">
+  <button
+    class="btn btn-secondary dropdown-toggle"
+    type="button"
+    id="dropdownMenuButton"
+    data-bs-toggle="dropdown"
+    aria-expanded="false"
+  >
+    
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <li>
+      <a class="dropdown-item" href="myprofile.php">My Profile</a>
+    </li>
+    <li>
+      <a class="dropdown-item" href="logout.php">Logout</a>
+    </li>
+  </ul>
+</div>
+
+              
             </li>
             <?php else: ?>
             <li class="nav-item">
