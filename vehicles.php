@@ -115,7 +115,7 @@ session_start();
               <h5 class="card-title">Three-Wheel</h5>
               <p class="card-text">
                 Enjoy a unique and fun ride with our three-wheeled vehicles.
-                <a href="listvehicle.php?category=threewheel" class="btn btn-theme">See Available Three-Wheels</a>
+                <a href="listvehicle.php?category=three-wheel" class="btn btn-theme">See Available Three-Wheels</a>
             </div>
           </div>
         </div>
