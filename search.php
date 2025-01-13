@@ -71,7 +71,7 @@ $result = $conn->query($sql);
                                 <p class="card-text">Location: <?php echo $row['location']; ?></p>
                                 <p class="card-text">Price: $<?php echo $row['price']; ?> per day</p>
                                
-                                <a href="book.php?id=<?php echo $row['vehicle_id']; ?>" class="btn btn-primary">Book Now</a>
+                                <a href="bookvehicle.php?id=<?php echo $row['vehicle_id']; ?>" class="btn btn-primary">Book Now</a>
                             </div>
                         </div>
                     </div>

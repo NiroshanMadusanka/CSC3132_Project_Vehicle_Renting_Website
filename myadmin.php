@@ -92,7 +92,7 @@ $contact_submissions = $contact_submissions_row['count'] ?? 0;
                 <div class="card-body">
                     <h5 class="card-title">Pending Booking Requests</h5>
                     <p class="card-text"><?php echo $pending_booking; ?></p>
-                    <a href="manage_bookings.php" class="btn btn-sm btn-success">Manage Bookkings</a>
+                    <a href="manage_bookings.php" class="btn btn-sm btn-success">Manage Bookings</a>
                 </div>
             </div>
         </div>
@@ -105,15 +105,7 @@ $contact_submissions = $contact_submissions_row['count'] ?? 0;
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Active Bookings</h5>
-                    <p class="card-text">N/A</p> <!-- Replace with actual query when available -->
-                    <a href="active_bookings.php" class="btn btn-sm btn-info">View Bookings</a>
-                </div>
-            </div>
-        </div>
+        
     </div>
 </div>
 

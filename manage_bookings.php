@@ -59,6 +59,7 @@ $result_cancelled = $conn->query($sql_cancelled);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Bookings</title>
     <link rel="stylesheet" href="styles.css">
+    
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -141,9 +142,7 @@ $result_cancelled = $conn->query($sql_cancelled);
     </style>
 </head>
 <body>
-<?php
-    require_once 'navbar.php';
-    ?>
+
     <div class="container">
         <h1 class="page-title">Manage Bookings</h1>
 
@@ -263,7 +262,7 @@ $result_cancelled = $conn->query($sql_cancelled);
     </tr>
 </table>
                         </div>
-                        <button class="btn confirm-btn" onclick="handleAction('confirm', <?= $row['booking_id']; ?>)">Confirm</button>
+                        
                         <button class="btn cancel-btn" onclick="handleAction('cancel', <?= $row['booking_id']; ?>)">Cancel</button>
  
                     </div>
@@ -324,9 +323,7 @@ $result_cancelled = $conn->query($sql_cancelled);
     </tr>
 </table>
                         </div>
-                        <button class="btn confirm-btn" onclick="handleAction('confirm', <?= $row['booking_id']; ?>)">Confirm</button>
-                        <button class="btn cancel-btn" onclick="handleAction('cancel', <?= $row['booking_id']; ?>)">Cancel</button>
- 
+                        
                     </div>
                 <?php endwhile; ?>
             <?php else: ?>

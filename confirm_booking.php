@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($stmt->execute()) {
             // Booking was successfully added
             echo "<script>
-                    alert('Your booking has been successfully confirmed!');
+                    alert('Your booking has been successfully recoreded. Stay tune!');
                     window.location.href = 'vehicles.php';
                   </script>";
         } else {
