@@ -163,7 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="mb-3">
     <label for="location">Location</label>
     <select id="location" name="location" required class="form-control">
-    <option value="" disabled selected>Select Pick-up Location</option>
+    <option value="" disabled selected>Select Location</option>
           <option value="Ampara">Ampara</option>
           <option value="Anuradhapura">Anuradhapura</option>
           <option value="Badulla">Badulla</option>

@@ -102,7 +102,7 @@ session_start();
           <label for="drop_location">Drop Location</label>
           <select class="form-control" name="drop_location" id="drop_location" required>
             <option value="" disabled selected>Select Drop Location</option>
-            <option value="" disabled selected>Select Pick-up Location</option>
+            <option value="" disabled selected>Select Drop Location</option>
           <option value="Ampara">Ampara</option>
           <option value="Anuradhapura">Anuradhapura</option>
           <option value="Badulla">Badulla</option>

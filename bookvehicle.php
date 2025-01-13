@@ -153,7 +153,7 @@ $conn->close();
         <div class="mb-3">
             <label for="drop_location" class="form-label">Drop Location</label>
             <select id="drop_location" name="drop_location" class="form-select" required>
-            <option value="" disabled selected>Select Pick-up Location</option>
+            <option value="" disabled selected>Select Drop Location</option>
           <option value="Ampara">Ampara</option>
           <option value="Anuradhapura">Anuradhapura</option>
           <option value="Badulla">Badulla</option>
