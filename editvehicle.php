@@ -81,6 +81,9 @@ $conn->close();
     </style>
 </head>
 <body>
+<?php
+    require_once 'navbar.php';
+    ?>
 
 <div class="container mt-5">
     <h2 class="mb-4 text-center">Edit Vehicle</h2>

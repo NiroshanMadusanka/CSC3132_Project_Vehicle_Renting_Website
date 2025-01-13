@@ -177,7 +177,9 @@ ob_end_flush(); // Flush the output buffer
     </style>
 </head>
 <body>
-
+<?php
+    require_once 'navbar.php';
+    ?>
 <div class="confirmation-container">
     <h2 class="text-center mb-4">Confirm Your Booking</h2>
 

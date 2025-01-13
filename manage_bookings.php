@@ -141,6 +141,9 @@ $result_cancelled = $conn->query($sql_cancelled);
     </style>
 </head>
 <body>
+<?php
+    require_once 'navbar.php';
+    ?>
     <div class="container">
         <h1 class="page-title">Manage Bookings</h1>
 

@@ -79,7 +79,9 @@ $conn->close();
     </style>
 </head>
 <body>
-
+<?php
+    require_once 'navbar.php';
+    ?>
 <div class="booking-container">
     <h2 class="text-center mb-4">Book Your Vehicle</h2>
 
