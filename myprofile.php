@@ -9,10 +9,10 @@ if (!isset($_SESSION['user_name'])) {
 require_once 'connectDB.php';
 
 // Fetch user details
-$username = $_SESSION['user_name'];
-$user_query = "SELECT * FROM users WHERE username = ?";
+$userid = $_SESSION['user_id'];
+$user_query = "SELECT * FROM users WHERE id = ?";
 $stmt = $conn->prepare($user_query);
-$stmt->bind_param("s", $username);
+$stmt->bind_param("s", $userid);
 $stmt->execute();
 $user_result = $stmt->get_result();
 $user = $user_result->fetch_assoc();
@@ -23,6 +23,7 @@ $stmt = $conn->prepare($vehicle_query);
 $stmt->bind_param("i", $user['id']); 
 $stmt->execute();
 $vehicle_result = $stmt->get_result();
+
 ?>
 
 <!DOCTYPE html>
@@ -171,8 +172,8 @@ table tbody tr:hover {
                   echo "<td>" . htmlspecialchars($vehicle['category']) . "</td>";
                   echo "<td>" . htmlspecialchars($vehicle['description']) . "</td>";
                   echo "<td>
-                          <a href='edit_vehicle.php?id=" . $vehicle['id'] . "' class='btn btn-warning btn-sm'>Edit</a>
-                          <a href='delete_vehicle.php?id=" . $vehicle['id'] . "' class='btn btn-danger btn-sm'>Delete</a>
+                          <a href='edit_vehicle.php?id=" . $vehicle['vehicle_id'] . "' class='btn btn-warning btn-sm'>Edit</a>
+                          <a href='delete_vehicle.php?id=" . $vehicle['vehicle_id'] . "' class='btn btn-danger btn-sm'>Delete</a>
                         </td>";
                   echo "</tr>";
               }
