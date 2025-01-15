@@ -1,6 +1,11 @@
 <?php
 session_start();
 include 'connectDB.php';
+if (!isset($_SESSION['user_id']) && $_SESSION['role'] !== 'admin') {
+    header("Location: login.php");
+    exit;
+}
+
 
 
 $total_users_result = $conn->query("SELECT COUNT(*) AS count FROM users");
