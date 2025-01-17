@@ -99,9 +99,9 @@ table tbody tr:hover {
 
       <!-- User's Booking Table -->
       <h2 class="mt-5">My Bookings</h2>
-        <table class="table table-striped table-bordered mt-3">
-          <thead>
-           <tr>
+<table class="table table-striped table-bordered mt-3">
+  <thead>
+    <tr>
       <th>No</th>
       <th>Model</th>
       <th>Category</th>
@@ -110,18 +110,18 @@ table tbody tr:hover {
       <th>Pickup Location</th>
       <th>Drop Location</th>
       <th>Status</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
     <?php
-    // Query to fetch bookings for the logged-in user
-    $booking_query = "SELECT b.booking_id, v.model , v.category, b.start_date, b.end_date, 
+    $booking_query = "SELECT b.booking_id, v.model, v.category, b.start_date, b.end_date, 
                       b.pickup_location, b.drop_location, b.status 
                       FROM bookings b
                       JOIN vehicles v ON b.vehicle_id = v.vehicle_id
                       WHERE b.user_id = ?";
     $stmt = $conn->prepare($booking_query);
-    $stmt->bind_param("i", $user['id']); // Assuming 'id' is the primary key in the 'users' table
+    $stmt->bind_param("i", $user['id']); 
     $stmt->execute();
     $booking_result = $stmt->get_result();
 
@@ -137,14 +137,21 @@ table tbody tr:hover {
             echo "<td>" . htmlspecialchars($booking['pickup_location']) . "</td>";
             echo "<td>" . htmlspecialchars($booking['drop_location']) . "</td>";
             echo "<td>" . htmlspecialchars($booking['status']) . "</td>";
+            echo "<td>
+                    <form method='POST' action='delete_booking.php' onsubmit='return confirm(\"Are you sure you want to delete this booking?\");'>
+                      <input type='hidden' name='booking_id' value='" . htmlspecialchars($booking['booking_id']) . "'>
+                      <button type='submit' class='btn btn-danger btn-sm'>Delete</button>
+                    </form>
+                  </td>";
             echo "</tr>";
         }
     } else {
-        echo "<tr><td colspan='8'>No bookings found.</td></tr>";
+        echo "<tr><td colspan='9'>No bookings found.</td></tr>";
     }
     ?>
   </tbody>
 </table>
+
 
 
 
