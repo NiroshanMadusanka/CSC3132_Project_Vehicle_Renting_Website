@@ -1,9 +1,9 @@
 <?php
-// Start the session
+
 session_start();
 require_once 'connectDB.php';
 
-// Check if the user is logged in
+
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_name']) || !isset($_SESSION['user_email'])) {
     header("Location: login.php");
     exit();
@@ -13,7 +13,7 @@ $user_id = $_SESSION['user_id'];
 $username = $_SESSION['user_name'];
 $useremail = $_SESSION['user_email'];
 
-// Fetch vehicle details
+
 $vehicle_id = isset($_GET['id']) ? $_GET['id'] : null;
 if (!$vehicle_id) {
     echo "<div class='alert alert-danger text-center'>Vehicle ID not provided.</div>";

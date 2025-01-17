@@ -2,6 +2,10 @@
 session_start();
 require_once "connectDB.php";
 
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
 
 if (isset($_POST['mark_as_read'])) {
     $id = intval($_POST['id']);

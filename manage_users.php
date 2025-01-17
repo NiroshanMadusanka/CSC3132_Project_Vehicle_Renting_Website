@@ -1,6 +1,10 @@
 <?php
 session_start();
 include 'connectDB.php';
+if (!isset($_SESSION['user_id']) && $_SESSION['role'] !== 'admin') {
+  header("Location: login.php");
+  exit;
+}
 
 
 $result = $conn->query("SELECT id, username, email, role FROM users");

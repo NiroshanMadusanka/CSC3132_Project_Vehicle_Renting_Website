@@ -5,17 +5,17 @@ ob_start(); // Start output buffering
 session_start();
 require_once 'connectDB.php';
 
-// Check if the user is logged in
-if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_name']) || !isset($_SESSION['user_email'])) {
+
+if (!isset($_SESSION['user_id']) && $_SESSION['role'] !== 'admin') {
     header("Location: login.php");
-    exit();
+    exit;
 }
 
-// Check if form is submitted (step 1, passing booking details)
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (isset($_POST['confirm'])) {
-        // If confirm is pressed, insert into database
+        
         $vehicle_id = $_SESSION['booking_details']['vehicle_id'];
         $pickup_date = $_SESSION['booking_details']['pickup_date'];
         $drop_date = $_SESSION['booking_details']['drop_date'];
@@ -28,20 +28,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $payment_method = $_POST['payment_method'];
         $reference_number = ($payment_method === 'bank') ? $_POST['reference_number'] : null;
     
-        // Insert the booking into the database
+        
         $sql = "INSERT INTO bookings (user_id, vehicle_id, start_date, end_date, pickup_location, drop_location, primary_phone, secondary_phone, driver_option, total_fee, payment_method, reference_number) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("iisssssssdss", $_SESSION['user_id'], $vehicle_id, $pickup_date, $drop_date, $pickup_location, $drop_location, $phone1, $phone2, $need_driver, $total_fee, $payment_method, $reference_number);
         
         if ($stmt->execute()) {
-            // Booking was successfully added
+           
             echo "<script>
                     alert('Your booking has been successfully recoreded. Stay tune!');
                     window.location.href = 'vehicles.php';
                   </script>";
         } else {
-            // If the booking failed
+            
             echo "<script>
                     alert('There was an error processing your booking. Please try again.');
                   </script>";
@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $vehicle = $result->fetch_assoc();
 
-        // Calculate the rental fee
+        
         $pickup = new DateTime($pickup_date);
         $drop = new DateTime($drop_date);
         $interval = $pickup->diff($drop);
@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $insurance_warning = "Warning: You need to provide your NIC or Passport for insurance.";
         }
 
-        // Store the booking details in the session for confirmation
+        
         $_SESSION['booking_details'] = [
             'vehicle_id' => $vehicle_id,
             'username' => $username,
@@ -131,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 
-ob_end_flush(); // Flush the output buffer
+ob_end_flush(); 
 ?>
 
 <!DOCTYPE html>
