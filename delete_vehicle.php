@@ -1,23 +1,23 @@
 <?php
 session_start();
-require_once 'connectDB.php'; // Include your database connection file
+require_once 'connectDB.php'; 
 
-// Check if the user is logged in
+
 if (!isset($_SESSION['user_id'])) {
-    // Redirect to the login page if the user is not logged in
+    
     header("Location: login.php");
     exit();
 }
 
-// Get the logged-in user's ID and role
+
 $user_id = $_SESSION['user_id'];
 $user_role = $_SESSION['role'];
 
-// Check if the vehicle ID is provided in the URL
+
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $vehicle_id = intval($_GET['id']);
 
-    // Check if the user is the owner of the vehicle or an admin
+    
     $query = "SELECT owner_id FROM vehicles WHERE vehicle_id = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $vehicle_id);
